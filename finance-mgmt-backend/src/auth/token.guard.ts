@@ -21,7 +21,7 @@ export class TokenGuard implements CanActivate {
       const payload = this.tokenService.verifyToken(token);
       request.userId = payload.sub;
       return true;
-    } catch (error) {
+    } catch (e) {
       throw new UnauthorizedException();
     }
   }
