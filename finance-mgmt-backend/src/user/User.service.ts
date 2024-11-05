@@ -5,11 +5,13 @@ import { User } from '../entities/User.entity';
 import { RegisterRequestDTO } from './RegisterRequestDTO';
 import * as bcrypt from 'bcrypt';
 import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception';
+import { BankAccountService } from '../bank-account/bank-account.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private bankAccountService: BankAccountService,
   ) {}
 
   async save(userRegisterRequest: RegisterRequestDTO) {
@@ -26,8 +28,8 @@ export class UserService {
       name: userRegisterRequest.name,
       role: 'USER',
     };
-    await this.userRepository.save(user);
-    return 'complete';
+    const newUser = await this.userRepository.save(user);
+    await this.bankAccountService.createAccount(newUser.id);
   }
 
   async findById(id: number): Promise<User> {

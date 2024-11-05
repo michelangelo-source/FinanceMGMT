@@ -1,6 +1,6 @@
 import { Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { BasicGuard } from './basic.guard';
-import { UserID } from './user.decorator';
+import { UserID } from '../user/user.decorator';
 import { TokenService } from '../token/token.service';
 import { Response } from 'express';
 

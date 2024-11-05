@@ -8,7 +8,7 @@ export class UserController {
 
   @Post()
   registerUser(@Body() user: RegisterRequestDTO) {
-    return this.userService.save(user);
+    this.userService.save(user);
   }
 
   @Get(':id')

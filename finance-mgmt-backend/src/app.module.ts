@@ -7,6 +7,7 @@ import { dbConn } from '../DBconfig';
 import { ConfigModule } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
+import { BankAccountModule } from './bank-account/bank-account.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
     TypeOrmModule.forRoot(dbConn),
     TokenModule,
     AuthModule,
+    BankAccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
