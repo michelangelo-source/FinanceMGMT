@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BankAccountEntity } from '../entities/BankAccount.entity';
 import { Repository } from 'typeorm';
+import { Amount } from './bank-account.controller';
 
 @Injectable()
 export class BankAccountService {
@@ -19,10 +20,14 @@ export class BankAccountService {
   }
 
   async getAccount(userId: number) {
-    const account = await this.bankAccountRepository.findOneBy({
+    return await this.bankAccountRepository.findOneBy({
       userId: userId,
     });
-    account.id = null;
-    return account;
+  }
+
+  async deposit(userId: number, deposit: Amount) {
+    const account = await this.getAccount(userId);
+    account.balance += deposit.amount;
+    await this.bankAccountRepository.update(account.id, account);
   }
 }
