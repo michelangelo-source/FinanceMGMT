@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { TokenGuard } from '../token/token.guard';
 import { CategoryDTO } from './categoryDTO';
@@ -11,5 +11,11 @@ export class CategoryController {
   @UseGuards(TokenGuard)
   async addCategory(@Body() category: CategoryDTO) {
     await this.categoryService.save(category);
+  }
+
+  @Get('/all')
+  @UseGuards(TokenGuard)
+  async getAll() {
+    return await this.categoryService.getAll();
   }
 }

@@ -11,4 +11,8 @@ export class CategoryService {
   async save(category: CategoryEntity) {
     await this.categoryRepository.save(category);
   }
+
+  async getAll() {
+    return this.categoryRepository.find();
+  }
 }
