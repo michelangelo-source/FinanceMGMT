@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BankAccountModule } from './bank-account/bank-account.module';
     TokenModule,
     AuthModule,
     BankAccountModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

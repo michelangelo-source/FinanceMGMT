@@ -8,6 +8,6 @@ export class BankAccountEntity {
   @Column({ name: 'userId' })
   @OneToOne(() => User, (user) => user.id)
   userId: number;
-  @Column({ name: 'Balance' })
+  @Column('decimal', { name: 'Balance', precision: 10, scale: 2 })
   balance: number;
 }
