@@ -6,4 +6,6 @@ export class CategoryEntity {
   id?: number;
   @Column({ name: 'Category' })
   Category: string;
+  @Column({ name: 'is_expanse' })
+  is_expanse: boolean;
 }

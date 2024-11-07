@@ -15,4 +15,12 @@ export class CategoryService {
   async getAll() {
     return this.categoryRepository.find();
   }
+
+  async getExpansesCategory() {
+    return this.categoryRepository.findBy({ is_expanse: true });
+  }
+
+  async getIncomesCategory() {
+    return this.categoryRepository.findBy({ is_expanse: false });
+  }
 }
