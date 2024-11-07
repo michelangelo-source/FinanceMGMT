@@ -3,6 +3,7 @@ import { UserID } from '../user/user.decorator';
 import { TokenGuard } from '../token/token.guard';
 import { BankAccountService } from './bank-account.service';
 import { AccountDTO } from './accountDTO';
+import { HistoryDTO } from '../history/historyDTO';
 
 @Controller('bank-account')
 export class BankAccountController {
@@ -18,13 +19,13 @@ export class BankAccountController {
 
   @Put('deposit')
   @UseGuards(TokenGuard)
-  async deposit(@UserID() userId: number, @Body() deposit: AccountDTO) {
+  async deposit(@UserID() userId: number, @Body() deposit: HistoryDTO) {
     await this.bankAccountService.deposit(userId, deposit);
   }
 
   @Put('expenditure')
   @UseGuards(TokenGuard)
-  async expenditure(@UserID() userId: number, @Body() deposit: AccountDTO) {
+  async expenditure(@UserID() userId: number, @Body() deposit: HistoryDTO) {
     await this.bankAccountService.expenditure(userId, deposit);
   }
 }

@@ -9,6 +9,7 @@ import { TokenModule } from './token/token.module';
 import { AuthModule } from './auth/auth.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
 import { CategoryModule } from './category/category.module';
+import { HistoryModule } from './history/history.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { CategoryModule } from './category/category.module';
     AuthModule,
     BankAccountModule,
     CategoryModule,
+    HistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

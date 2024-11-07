@@ -3,12 +3,11 @@ import { UserController } from './User.controller';
 import { UserService } from './User.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/User.entity';
-import { BankAccountService } from '../bank-account/bank-account.service';
-import { BankAccountEntity } from '../entities/BankAccount.entity';
+import { BankAccountModule } from '../bank-account/bank-account.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, BankAccountEntity])],
+  imports: [TypeOrmModule.forFeature([User]), BankAccountModule],
   controllers: [UserController],
-  providers: [UserService, BankAccountService],
+  providers: [UserService],
 })
 export class UserModule {}
