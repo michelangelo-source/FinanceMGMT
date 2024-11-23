@@ -21,15 +21,18 @@ export class UserService {
     if (userExists) {
       throw new UserAlreadyExistsException();
     }
-    const HashedPassword = await bcrypt.hash(userRegisterRequest.password, 10);
-    const user: User = {
-      password: HashedPassword,
+    const hashedPassword = await bcrypt.hash(userRegisterRequest.password, 10);
+
+    const user = this.userRepository.create({
       login: userRegisterRequest.login,
+      password: hashedPassword,
       name: userRegisterRequest.name,
       role: 'USER',
-    };
-    const newUser = await this.userRepository.save(user);
-    await this.bankAccountService.createAccount(newUser.id);
+    });
+
+    const savedUser = await this.userRepository.save(user);
+    await this.bankAccountService.createAccount(savedUser);
+    return savedUser;
   }
 
   async findById(id: number): Promise<User> {

@@ -2,9 +2,9 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BankAccountEntity } from '../entities/BankAccount.entity';
 import { Repository } from 'typeorm';
-import { HistoryEntity } from '../entities/History.entity';
 import { HistoryDTO } from '../history/historyDTO';
 import { HistoryService } from '../history/history.service';
+import { User } from '../entities/User.entity';
 
 @Injectable()
 export class BankAccountService {
@@ -15,48 +15,55 @@ export class BankAccountService {
     private historyService: HistoryService,
   ) {}
 
-  async createAccount(userId: number) {
-    const account: BankAccountEntity = {
-      userId: userId,
+  async createAccount(user: User) {
+    const account: BankAccountEntity = this.bankAccountRepository.create({
       balance: 0,
-    };
-    await this.bankAccountRepository.save(account);
+      user: user,
+    });
+    return this.bankAccountRepository.save(account);
   }
 
   async getAccount(userId: number) {
-    return await this.bankAccountRepository.findOneBy({
-      userId: userId,
+    return this.bankAccountRepository.findOne({
+      where: { user: { id: userId } },
+      relations: ['user'],
     });
   }
 
   async deposit(userId: number, deposit: HistoryDTO) {
     const account = await this.getAccount(userId);
-    const history: HistoryEntity = {
-      accountId: account.id,
-      categoryId: deposit.categoryId,
-      amountBefore: account.balance,
-      amount: deposit.amount,
-      createdAt: new Date(),
-      description: deposit.description,
-    };
+    if (!account) {
+      throw new Error('Account not found');
+    }
+
+    const history = this.historyService.createHistory(account, deposit, false);
+    console.log(account.balance);
+    console.log(deposit.amount);
+    account.balance = parseFloat(account.balance as any);
     account.balance += deposit.amount;
-    await this.bankAccountRepository.update(account.id, account);
+    console.log(account.balance);
+    console.log(deposit.amount);
+    console.log(`Account balance: ${account.balance}`);
+
+    await this.bankAccountRepository.save(account);
     await this.historyService.save(history);
   }
 
-  async expenditure(userId: number, expenditure: HistoryDTO) {
+  async expenditure(userId: number, expenditure: HistoryDTO): Promise<void> {
     const account = await this.getAccount(userId);
-    const history: HistoryEntity = {
-      accountId: account.id,
-      categoryId: expenditure.categoryId,
-      amountBefore: account.balance,
-      amount: expenditure.amount,
-      createdAt: new Date(),
-      description: expenditure.description,
-    };
+    if (!account) {
+      throw new Error('Account not found');
+    }
+    if (account.balance < expenditure.amount) {
+      throw new Error('Insufficient balance');
+    }
+    const history = this.historyService.createHistory(
+      account,
+      expenditure,
+      true,
+    );
     account.balance -= expenditure.amount;
-
-    await this.bankAccountRepository.update(account.id, account);
+    await this.bankAccountRepository.save(account);
     await this.historyService.save(history);
   }
 }

@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { HistoryEntity } from '../entities/History.entity';
 import { BankAccountService } from '../bank-account/bank-account.service';
+import { BankAccountEntity } from '../entities/BankAccount.entity';
+import { HistoryDTO } from './historyDTO';
 
 @Injectable()
 export class HistoryService {
@@ -18,7 +20,28 @@ export class HistoryService {
   }
 
   async getOwnHistory(userId: number) {
-    const account = await this.bankAccountService.getAccount(userId);
-    return await this.historyRepository.findBy({ accountId: account.id });
+    return await this.historyRepository.find({
+      where: {
+        account: {
+          user: { id: userId },
+        },
+      },
+      relations: ['account', 'account.user'],
+    });
+  }
+
+  createHistory(
+    account: BankAccountEntity,
+    historyDTO: HistoryDTO,
+    isExpenditure: boolean,
+  ) {
+    return this.historyRepository.create({
+      account: account,
+      category: { id: historyDTO.categoryId },
+      amountBefore: account.balance,
+      amount: isExpenditure ? -historyDTO.amount : historyDTO.amount,
+      createdAt: new Date(),
+      description: historyDTO.description,
+    });
   }
 }

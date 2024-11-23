@@ -8,5 +8,6 @@ export const dbConn: PostgresConnectionOptions = {
   password: 'qq',
   database: 'FinanceMgmtDB',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
+  logging: false,
 };

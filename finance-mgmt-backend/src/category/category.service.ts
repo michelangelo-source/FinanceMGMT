@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from '../entities/Category.entity';
 import { Repository } from 'typeorm';
+import { CategoryDTO } from './categoryDTO';
 
 export class CategoryService {
   constructor(
@@ -8,8 +9,12 @@ export class CategoryService {
     private readonly categoryRepository: Repository<CategoryEntity>,
   ) {}
 
-  async save(category: CategoryEntity) {
-    await this.categoryRepository.save(category);
+  async save(category: CategoryDTO) {
+    const newCategory = this.categoryRepository.create({
+      Category: category.Category,
+      is_expanse: category.is_expanse,
+    });
+    return this.categoryRepository.save(newCategory);
   }
 
   async getAll() {
