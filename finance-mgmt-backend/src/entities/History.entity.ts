@@ -7,12 +7,13 @@ import {
 } from 'typeorm';
 import { BankAccountEntity } from './BankAccount.entity';
 import { CategoryEntity } from './Category.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('History')
 export class HistoryEntity {
   @PrimaryGeneratedColumn({ name: 'Id' })
   id: number;
-
+  @Exclude()
   @ManyToOne(() => BankAccountEntity, (bankAccount) => bankAccount.history)
   @JoinColumn({ name: 'AccountId' })
   account: BankAccountEntity;

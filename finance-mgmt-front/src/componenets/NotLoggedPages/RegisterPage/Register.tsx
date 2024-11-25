@@ -1,6 +1,6 @@
 import {Link, useNavigate} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
-import bgIMG from "../assets/backgroundStart.webp"
+import bgIMG from "../../../assets/backgroundStart.webp"
 interface RegisterData {
     login: string;
     password: string;

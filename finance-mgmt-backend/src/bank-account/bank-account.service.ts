@@ -37,14 +37,8 @@ export class BankAccountService {
     }
 
     const history = this.historyService.createHistory(account, deposit, false);
-    console.log(account.balance);
-    console.log(deposit.amount);
     account.balance = parseFloat(account.balance as any);
     account.balance += deposit.amount;
-    console.log(account.balance);
-    console.log(deposit.amount);
-    console.log(`Account balance: ${account.balance}`);
-
     await this.bankAccountRepository.save(account);
     await this.historyService.save(history);
   }

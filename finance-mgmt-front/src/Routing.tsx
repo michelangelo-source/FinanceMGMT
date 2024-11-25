@@ -1,16 +1,16 @@
 import {RouteObject, useRoutes} from 'react-router-dom'
-import {ErrorPage} from "./error/ErrorPage.tsx";
-import {Login} from "./componenets/Login.tsx";
-import {Register} from "./componenets/Register.tsx";
-import {StartPage} from "./componenets/StartPage.tsx";
-import {MainPage} from "./componenets/MainPage.tsx";
+import {Login} from "./componenets/NotLoggedPages/LoginPage/Login.tsx";
+import {Register} from "./componenets/NotLoggedPages/RegisterPage/Register.tsx";
+import {StartPage} from "./componenets/NotLoggedPages/IndexPage/StartPage.tsx";
+import {MainPage} from "./componenets/MainPage/MainPage.tsx";
+import {userIsLogged} from "./hooks/userIsLogged.ts";
 
-
-const routes: RouteObject[] = [
+const publicRoutes: RouteObject[] = [
     {
         path: '/',
         element: <StartPage/>,
-    }, {
+    },
+    {
         path: "/login",
         element: <Login/>
     },
@@ -19,16 +19,23 @@ const routes: RouteObject[] = [
         element: <Register/>
     },
     {
-        path:"/mainPage",
-        element:<MainPage/>
+        path: '*',
+        element: <StartPage/>
+    }
+]
+const privateRoutes: RouteObject[] = [
+    {
+        path: "/mainPage",
+        element: <MainPage/>
     },
-
     {
         path: '*',
-        element: <ErrorPage/>
+        element: <MainPage/>
     }
 
 ]
 export const Routing = () => {
+    const isLogged = userIsLogged();
+    const routes = isLogged ? privateRoutes : publicRoutes;
     return useRoutes(routes);
 }

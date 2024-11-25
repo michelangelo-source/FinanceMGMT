@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import bgIMG from "../assets/backgroundStart.webp"
+import bgIMG from "../../../assets/backgroundStart.webp"
 
 export const StartPage = () => {
     return (

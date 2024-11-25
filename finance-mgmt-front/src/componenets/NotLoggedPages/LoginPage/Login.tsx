@@ -1,21 +1,23 @@
-import {Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
-import bgIMG from "../assets/backgroundStart.webp"
-interface LoginData{
+import bgIMG from "../../../assets/backgroundStart.webp"
+import {login} from "./api/login.ts";
+
+interface LoginData {
     login: string,
     password: string,
 }
 
 export const Login = () => {
     const navigate = useNavigate();
-    const {register, handleSubmit,formState:{errors}} = useForm<LoginData>();
-    const handleSubmitFun:SubmitHandler<LoginData> =data => {
+    const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
+    const handleSubmitFun: SubmitHandler<LoginData> = async data => {
+        try {
+            await login(data.login, data.password).then(()=>{navigate("/mainPage")})
+        } catch (err) {
+            console.log(err)
 
-        console.log(data);
-        //fetch
-        setTimeout(()=>{
-            navigate("/mainPage");
-        },1000)
+        }
     }
 
 
@@ -50,5 +52,5 @@ export const Login = () => {
 
             </div>
         </div>
-            )
-            }
+    )
+}
