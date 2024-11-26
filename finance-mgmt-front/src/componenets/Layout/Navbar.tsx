@@ -2,6 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {APIlogout} from "./NavbarApi/logout.ts";
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
+import {classNames} from "../../globalFun/clasnameConnector.ts";
 export type NavbarPages='Main page'|'Reports'|'Savings goals'|'Financial history'|'My account'
 interface NavbarProps {
     ActivePage: NavbarPages
@@ -16,9 +17,7 @@ export const Navbar = (props: NavbarProps) => {
 
     }
 
-    function classNames(...classes: string[]) {
-        return classes.filter(Boolean).join(' ')
-    }
+
 
     const navigation = [
         {name: 'Main page', href: '/mainPage', current: false},

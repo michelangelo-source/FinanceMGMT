@@ -4,10 +4,7 @@ import {API_URL} from "../../../../config.ts";
 export type balance ={
     balance: number;
 }
-export const Balance =async () => {
+export const getBalance =async () => {
 
-   return ky.create({
-        prefixUrl: API_URL,
-        credentials: "include",
-    }).get<balance>("bank-account/own").json();
+   return ky.get(API_URL+"bank-account/own",{ credentials: "include",}).json<balance>();
 }

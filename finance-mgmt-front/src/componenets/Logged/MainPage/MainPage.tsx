@@ -1,16 +1,22 @@
 import {Navbar} from "../../Layout/Navbar.tsx";
 import bgIMG from '../../../assets/mainBG2.webp'
 import {useEffect, useState} from "react";
-import {Balance} from "./MainPageAPi/MainPage.ts";
+import {getBalance} from "./MainPageAPi/MainPage.ts";
+import {getHistory, Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
+import {classNames} from "../../../globalFun/clasnameConnector.ts";
 
-export const MainPage =  () => {
+
+export const MainPage = () => {
     const [balance, setBalance] = useState<number>();
-    const actualBalance =async () => {
-        const balance = await Balance();
-        setBalance(balance.balance);
-    };
+    const [history, setHistory] = useState<Transaction[]>();
     useEffect(() => {
-        actualBalance().then();
+        getBalance().then((response) => {
+            setBalance(response.balance)
+        });
+        getHistory().then((response) => {
+            setHistory(response)
+
+        })
     }, [])
 
 
@@ -35,13 +41,31 @@ export const MainPage =  () => {
                     </div>
                     <div
                         className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5'>
-                        Hisotry:
+                        History:
+                        <ul>
+                            {history ? history.map((item) => (
+                                <li key={item.id}
+                                    className="text-lg flex justify-between items-center p-2 border-b border-gray-300">
+                                    <span
+                                        className={classNames(item.amount > 0 ? 'text-green-700' : 'text-red-800', "font-medium w-1/4")}>{item.amount}</span>
+                                    <span className=" w-1/4">{item.title}</span>
+                                    <span className='w-1/4'>{(Number(item.amountBefore)+Number(item.amount))%1==0?Number(item.amountBefore)+Number(item.amount)+".00":Number(item.amountBefore)+Number(item.amount)}</span>
+                                    <span className="text-sm text-gray-500 w-1/4">
+                                      {new Date(item.createdAt).toLocaleString('pl-PL', {
+                                          day: 'numeric',
+                                          month: '2-digit',
+                                          year: 'numeric',
+                                          hour: '2-digit',
+                                          minute: '2-digit',
+                                      })}
+                                     </span>
+                                </li>
+
+                            )) : null}
+                        </ul>
                     </div>
                 </div>
-
-
             </div>
         </>
     )
-
 }
