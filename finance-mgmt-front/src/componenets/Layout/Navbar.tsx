@@ -34,7 +34,7 @@ export const Navbar = (props: NavbarProps) => {
     }
 
     return (
-        <Disclosure as="nav" className="bg-cyan-600 opacity-60 fixed top-0 w-full">
+        <Disclosure as="nav" className="bg-cyan-600 opacity-80 fixed top-0 w-full z-50">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -57,15 +57,15 @@ export const Navbar = (props: NavbarProps) => {
                                         to={item.href}
                                         aria-current={item.current ? 'page' : undefined}
                                         className={classNames(
-                                            item.current ? 'bg-cyan-900 text-white' : 'text-cyan-300 hover:bg-cyan-700 hover:text-white',
-                                            'rounded-md px-3 py-2 text-sm font-medium',
+                                            item.current ? 'bg-cyan-900' : ' hover:bg-cyan-700 ',
+                                            'rounded-md px-3 py-2 text-sm font-medium text-white',
                                         )}
                                     >
                                         {item.name}
                                     </Link>
                                 ))}
-                                <button onClick={logout} className='text-cyan-300 hover:bg-cyan-700 hover:text-white
-                                    block rounded-md px-3 py-2 text-base font-medium'> Logout
+                                <button onClick={logout} className='hover:bg-cyan-700
+                                    block rounded-md px-3 py-2 text-base  text-white'> Logout
                                 </button>
                             </div>
                         </div>
@@ -83,15 +83,15 @@ export const Navbar = (props: NavbarProps) => {
                             to={item.href}
                             aria-current={item.current ? 'page' : undefined}
                             className={classNames(
-                                item.current ? 'bg-cyan-900 text-white' : 'text-cyan-300 hover:bg-cyan-700 hover:text-white',
-                                'block rounded-md px-3 py-2 text-base font-medium',
+                                item.current ? 'bg-cyan-900' : 'text-cyan-300 hover:bg-cyan-700',
+                                'block rounded-md px-3 py-2 text-base font-medium text-white',
                             )}
                         >
                             {item.name}
                         </Link>
                     ))}
-                    <button onClick={logout} className='text-cyan-300 hover:bg-cyan-700 hover:text-white
-                                    block rounded-md px-3 py-2 text-base font-medium'> Logout
+                    <button onClick={logout} className=' w-full hover:bg-cyan-700 text-white
+                                    block rounded-md px-3 py-2 text-base font-medium text-left'> Logout
                     </button>
                 </div>
             </DisclosurePanel>
