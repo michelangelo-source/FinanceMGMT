@@ -10,4 +10,7 @@ export class HistoryDTO {
   @IsNotEmpty()
   @IsString()
   description: string;
+  @IsNotEmpty()
+  @IsString()
+  title: string;
 }

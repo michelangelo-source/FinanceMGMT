@@ -27,6 +27,7 @@ export class HistoryService {
         },
       },
       relations: ['account', 'account.user'],
+      order: { createdAt: 'DESC' },
     });
   }
 
@@ -42,6 +43,7 @@ export class HistoryService {
       amount: isExpenditure ? -historyDTO.amount : historyDTO.amount,
       createdAt: new Date(),
       description: historyDTO.description,
+      title: historyDTO.title,
     });
   }
 }

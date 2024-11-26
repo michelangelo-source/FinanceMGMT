@@ -33,4 +33,6 @@ export class HistoryEntity {
 
   @Column({ name: 'Description' })
   description: string;
+  @Column({ name: 'title', nullable: true })
+  title: string;
 }
