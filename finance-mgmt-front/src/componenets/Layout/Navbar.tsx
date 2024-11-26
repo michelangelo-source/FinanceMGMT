@@ -2,8 +2,12 @@ import {Link, useNavigate} from "react-router-dom";
 import {APIlogout} from "./NavbarApi/logout.ts";
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
+export type NavbarPages='Main page'|'Reports'|'Savings goals'|'Financial history'|'My account'
+interface NavbarProps {
+    ActivePage: NavbarPages
+}
 
-export const Navbar = () => {
+export const Navbar = (props: NavbarProps) => {
     const navigate = useNavigate();
     const logout = () => {
         APIlogout().then(() => {
@@ -17,13 +21,18 @@ export const Navbar = () => {
     }
 
     const navigation = [
-        {name: 'Main page', href: '#', current: true},
+        {name: 'Main page', href: '/mainPage', current: false},
         {name: 'Reports', href: '#', current: false},
         {name: 'Savings goals', href: '#', current: false},
-        {name: 'Financial history', href: '#', current: false},
+        {name: 'Financial history', href: '/history', current: false},
         {name: 'My account', href: '#', current: false},
 
     ]
+    const active = navigation.find(element => element.name == props.ActivePage)
+    if (active) {
+        active.current = true
+    }
+
     return (
         <Disclosure as="nav" className="bg-cyan-600 opacity-60 fixed top-0 w-full">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

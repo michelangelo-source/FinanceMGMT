@@ -1,5 +1,5 @@
-import {Navbar} from "../Layout/Navbar.tsx";
-import bgIMG from '../../assets/mainBG2.webp'
+import {Navbar} from "../../Layout/Navbar.tsx";
+import bgIMG from '../../../assets/mainBG2.webp'
 
 export const MainPage = () => {
     return (
@@ -8,7 +8,7 @@ export const MainPage = () => {
         <div style={{backgroundImage: `url(${bgIMG})`}}
 
              className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
-            <Navbar  />
+            <Navbar ActivePage='Main page' />
             <div className='flex flex-row h-2/3 w-2/3 rounded-xl text-cyan-600
             bg-white bg-opacity-60'>
                 <div className='flex flex-col h-full w-1/3 bg-opacity-60'>

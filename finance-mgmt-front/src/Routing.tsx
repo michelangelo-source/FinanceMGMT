@@ -2,8 +2,9 @@ import {RouteObject, useRoutes} from 'react-router-dom'
 import {Login} from "./componenets/NotLoggedPages/LoginPage/Login.tsx";
 import {Register} from "./componenets/NotLoggedPages/RegisterPage/Register.tsx";
 import {StartPage} from "./componenets/NotLoggedPages/IndexPage/StartPage.tsx";
-import {MainPage} from "./componenets/MainPage/MainPage.tsx";
+import {MainPage} from "./componenets/Logged/MainPage/MainPage.tsx";
 import {userIsLogged} from "./hooks/userIsLogged.ts";
+import {AccountHistoryPage} from "./componenets/Logged/AccountHistory/AccountHisotryPage.tsx";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -27,6 +28,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/mainPage",
         element: <MainPage/>
+    },
+    {
+        path: "/history",
+        element: <AccountHistoryPage/>
     },
     {
         path: '*',
