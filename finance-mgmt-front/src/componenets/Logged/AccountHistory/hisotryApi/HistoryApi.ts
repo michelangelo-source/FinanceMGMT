@@ -13,3 +13,6 @@ export const getHistory =async () => {
 
     return ky.get(API_URL+"history/own",{ credentials: "include",}).json<Transaction[]>();
 }
+export const getHistoryByDates=async (dateFrom:string,dateTo:string)=>{
+    return ky.get(API_URL+"history/own/"+dateFrom+"/"+dateTo,{ credentials: "include",}).json<Transaction[]>();
+}

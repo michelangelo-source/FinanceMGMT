@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { HistoryEntity } from '../entities/History.entity';
 import { BankAccountService } from '../bank-account/bank-account.service';
 import { BankAccountEntity } from '../entities/BankAccount.entity';
@@ -25,6 +25,19 @@ export class HistoryService {
         account: {
           user: { id: userId },
         },
+      },
+      relations: ['account', 'account.user'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async getOwnHistoryByDates(userId: number, dateFrom: Date, dateTo: Date) {
+    return await this.historyRepository.find({
+      where: {
+        account: {
+          user: { id: userId },
+        },
+        createdAt: Between(dateFrom, dateTo),
       },
       relations: ['account', 'account.user'],
       order: { createdAt: 'DESC' },
