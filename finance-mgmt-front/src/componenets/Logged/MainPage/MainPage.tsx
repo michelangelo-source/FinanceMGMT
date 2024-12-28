@@ -4,9 +4,14 @@ import {useEffect, useState} from "react";
 import {getBalance} from "./MainPageAPi/MainPage.ts";
 import {getHistory, Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
 import {classNames} from "../../../globalFun/clasnameConnector.ts";
+import {Button} from "@headlessui/react";
+import {useNavigate} from "react-router-dom";
 
 export const MainPage = () => {
+    const navigate = useNavigate();
     const [balance, setBalance] = useState<number>();
+
+
     const [history, setHistory] = useState<Transaction[]>();
     useEffect(() => {
         getBalance().then((response) => {
@@ -18,14 +23,15 @@ export const MainPage = () => {
         })
     }, [])
 
+    const newTransaction=()=>{
+        navigate("/transaction")
+    }
+        return (
 
-    return (
 
-
-        <div style={{backgroundImage: `url(${bgIMG})`}}
-             className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
-            <Navbar ActivePage='Main page'/>
-
+            <div style={{backgroundImage: `url(${bgIMG})`}}
+                 className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
+                <Navbar ActivePage='Main page'/>
 
             <div className='flex flex-col lg:flex-row h-4/5 w-4/5 lg:w-2/3 rounded-lg text-cyan-600
             bg-white bg-opacity-80'>
@@ -34,6 +40,9 @@ export const MainPage = () => {
                         className=' relative bg-cyan-600  text-white bg-opacity-60 text-4xl rounded-lg h-32 p-6 m-5'>
                         Balance:
                         <div className='absolute bottom-0 right-0 m-4'>{balance}</div>
+                    </div>
+                    <div className='flex flex-row items-center justify-center'>
+                        <Button onClick={newTransaction}>New transaction</Button>
                     </div>
                     <div className='bg-cyan-600 flex-grow text-white bg-opacity-60  text-4xl rounded-lg  p-6 m-5'>
                         Saving goals:
@@ -50,7 +59,7 @@ export const MainPage = () => {
                                         className={classNames(item.amount > 0 ? 'text-green-700' : 'text-red-800', "font-medium w-1/4")}>{item.amount}</span>
                                 <span className=" w-1/4">{item.title}</span>
                                 <span
-                                    className='w-1/4'>{(Number(item.amountBefore) + Number(item.amount)) % 1 == 0 ? Number(item.amountBefore) + Number(item.amount) + ".00" : Number(item.amountBefore) + Number(item.amount)}</span>
+                                    className='w-1/4'>{(Number(item.amountBefore) + Number(item.amount)) % 1 == 0 ? Number(item.amountBefore) + Number(item.amount) + ".00" : (Number(item.amountBefore) + Number(item.amount)).toFixed(2)}</span>
                                 <span className="text-sm text-gray-500 w-1/4">
                                       {new Date(item.createdAt).toLocaleString('pl-PL', {
                                           day: 'numeric',

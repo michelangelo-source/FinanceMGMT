@@ -5,6 +5,7 @@ import {StartPage} from "./componenets/NotLoggedPages/IndexPage/StartPage.tsx";
 import {MainPage} from "./componenets/Logged/MainPage/MainPage.tsx";
 import {userIsLogged} from "./hooks/userIsLogged.ts";
 import {AccountHistoryPage} from "./componenets/Logged/AccountHistory/AccountHisotryPage.tsx";
+import {TransactionForm} from "./componenets/Logged/Transaction/TransactionForm.tsx";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -32,6 +33,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: "/history",
         element: <AccountHistoryPage/>
+    },
+    {
+        path: "/transaction",
+        element: <TransactionForm/>
     },
     {
         path: '*',
