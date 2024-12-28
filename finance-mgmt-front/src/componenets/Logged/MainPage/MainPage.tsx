@@ -5,7 +5,6 @@ import {getBalance} from "./MainPageAPi/MainPage.ts";
 import {getHistory, Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
 import {classNames} from "../../../globalFun/clasnameConnector.ts";
 
-
 export const MainPage = () => {
     const [balance, setBalance] = useState<number>();
     const [history, setHistory] = useState<Transaction[]>();
@@ -22,6 +21,7 @@ export const MainPage = () => {
 
     return (
         <>
+
             <div style={{backgroundImage: `url(${bgIMG})`}}
                  className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
                 <Navbar ActivePage='Main page'/>

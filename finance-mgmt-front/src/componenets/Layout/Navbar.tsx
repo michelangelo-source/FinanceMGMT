@@ -3,20 +3,38 @@ import {APIlogout} from "./NavbarApi/logout.ts";
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {classNames} from "../../globalFun/clasnameConnector.ts";
-export type NavbarPages='Main page'|'Reports'|'Savings goals'|'Financial history'|'My account'
+import {useNotification} from "../Notification/useNotification.ts";
+
+export type NavbarPages = 'Main page' | 'Reports' | 'Savings goals' | 'Financial history' | 'My account'
+
 interface NavbarProps {
     ActivePage: NavbarPages
 }
 
 export const Navbar = (props: NavbarProps) => {
     const navigate = useNavigate();
+    const{setNotification}=useNotification();
     const logout = () => {
-        APIlogout().then(() => {
-            navigate("/")
-        });
+        try {
+            APIlogout().then(() => {
+                setNotification({
+                    id:Date.now(),
+                    message:"logged out",
+                    type:"info",
+                    duration:2000,
+                })
+                navigate("/")
+            });
+        } catch {
+            setNotification({
+                id:Date.now(),
+                message:"faild to logout",
+                type:"error",
+                duration:3000,
+            })
+        }
 
     }
-
 
 
     const navigation = [
@@ -33,7 +51,7 @@ export const Navbar = (props: NavbarProps) => {
     }
 
     return (
-        <Disclosure as="nav" className="bg-cyan-600 opacity-80 fixed top-0 w-full z-50">
+        <Disclosure as="nav" className="bg-cyan-600 opacity-80 fixed top-0 w-full z-40">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">

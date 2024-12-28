@@ -1,11 +1,14 @@
 import {BrowserRouter} from 'react-router-dom'
 import {Routing} from "./Routing.tsx";
+import { NotificationProvider} from "./componenets/Notification/NotificationProvider.tsx";
 
 function App() {
 
-  return (
+    return (
       <BrowserRouter>
-        <Routing/>
+          <NotificationProvider>
+             <Routing/>
+          </NotificationProvider>
   </BrowserRouter>
   );
 }

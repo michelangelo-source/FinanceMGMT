@@ -2,6 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {SubmitHandler, useForm} from "react-hook-form";
 import bgIMG from "../../../assets/backgroundStart.webp"
 import {login} from "./api/login.ts";
+import {useNotification} from "../../Notification/useNotification.ts";
 
 interface LoginData {
     login: string,
@@ -11,12 +12,25 @@ interface LoginData {
 export const Login = () => {
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors}} = useForm<LoginData>();
+    const {setNotification }=useNotification();
+
     const handleSubmitFun: SubmitHandler<LoginData> = async data => {
         try {
-            await login(data.login, data.password).then(()=>{navigate("/mainPage")})
-        } catch (err) {
-            console.log(err)
-
+            await login(data.login, data.password)
+            setNotification ({
+                id:Date.now(),
+                message: "Logged in!",
+                type: "success",
+                duration: 1000,
+            })
+            navigate("/mainPage");
+        } catch {
+            setNotification ({
+                id:Date.now(),
+                message: "Bad login or password",
+                type: "error",
+                duration: 3000,
+            })
         }
     }
 
@@ -24,6 +38,7 @@ export const Login = () => {
     return (
 
         <div style={{backgroundImage: `url(${bgIMG})`}}
+
              className='flex flex-col items-center justify-center
                         h-screen w-screen
                         bg-cover bg-center'>
@@ -51,6 +66,7 @@ export const Login = () => {
                 </form>
 
             </div>
+
         </div>
     )
 }
