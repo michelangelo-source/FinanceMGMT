@@ -4,8 +4,10 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Category, getCategories} from "./transactionApi/categories.ts";
+import {expenditure, income} from "./transactionApi/transaction.ts";
+import {useNotification} from "../../Notification/useNotification.ts";
 
-interface TransactionFormData {
+export interface TransactionFormData {
     title: string;
     amount: number;
     categoryId: number;
@@ -17,6 +19,7 @@ export const TransactionForm = () => {
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [isIncome, setIsIncome] = useState<boolean>();
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+    const {setNotification} = useNotification();
     useEffect(() => {
         getCategories().then((response) => {
             setAllCategories(response);
@@ -27,10 +30,15 @@ export const TransactionForm = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<TransactionFormData>();
     const handleSubmitFun: SubmitHandler<TransactionFormData> = async data => {
         try {
-            if(isIncome) {console.log("przychod")}else{ console.log("rozchod")}
-            // navigate('/mainPage')
+            if (isIncome) {
+                income(data)
+            } else {
+                expenditure(data)
+            }
+            navigate('/mainPage')
         } catch (err) {
-            console.log(err)
+            const error = err as Error;
+            setNotification({duration: 1000, id: Date.now(), message: error.message, type: "error"})
         }
     }
     const categoryType = (val: transactionType) => {

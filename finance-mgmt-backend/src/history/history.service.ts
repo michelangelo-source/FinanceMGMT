@@ -32,12 +32,17 @@ export class HistoryService {
   }
 
   async getOwnHistoryByDates(userId: number, dateFrom: Date, dateTo: Date) {
+    const dateFromStart = new Date(dateFrom);
+    dateFromStart.setHours(0, 0, 0, 0);
+
+    const dateToEnd = new Date(dateTo);
+    dateToEnd.setHours(23, 59, 59, 999);
     return await this.historyRepository.find({
       where: {
         account: {
           user: { id: userId },
         },
-        createdAt: Between(dateFrom, dateTo),
+        createdAt: Between(dateFromStart, dateToEnd),
       },
       relations: ['account', 'account.user'],
       order: { createdAt: 'DESC' },

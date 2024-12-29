@@ -132,7 +132,7 @@ export const AccountHistoryPage = () => {
                                         className={classNames(item.amount > 0 ? 'text-green-700' : 'text-red-800', "font-medium w-1/4")}>{item.amount}</span>
                                 <span className=" w-1/4">{item.title}</span>
                                 <span
-                                    className='w-1/4'>{(Number(item.amountBefore) + Number(item.amount)) % 1 == 0 ? Number(item.amountBefore) + Number(item.amount) + ".00" : Number(item.amountBefore) + Number(item.amount)}</span>
+                                    className='w-1/4'>{(Number(item.amountBefore) + Number(item.amount)) % 1 == 0 ? Number(item.amountBefore) + Number(item.amount) + ".00" : (Number(item.amountBefore) + Number(item.amount)).toFixed(2)}</span>
                                 <span className="text-sm text-gray-500 w-1/4">
                                       {new Date(item.createdAt).toLocaleString('pl-PL', {
                                           day: 'numeric',
