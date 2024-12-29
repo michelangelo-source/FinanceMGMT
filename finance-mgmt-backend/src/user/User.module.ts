@@ -9,5 +9,6 @@ import { BankAccountModule } from '../bank-account/bank-account.module';
   imports: [TypeOrmModule.forFeature([User]), BankAccountModule],
   controllers: [UserController],
   providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}

@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { BankAccountModule } from './bank-account/bank-account.module';
 import { CategoryModule } from './category/category.module';
 import { HistoryModule } from './history/history.module';
+import { SavingGoalModule } from './saving-goal/saving-goal.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { HistoryModule } from './history/history.module';
     BankAccountModule,
     CategoryModule,
     HistoryModule,
+    SavingGoalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

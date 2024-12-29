@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BankAccountEntity } from './BankAccount.entity';
+import { SavingGoalAccountEntity } from './SavingGoalAccount.entity';
 
 @Entity('users')
 export class User {
@@ -20,4 +27,9 @@ export class User {
 
   @OneToOne(() => BankAccountEntity, (bankAccount) => bankAccount.user)
   bankAccount: BankAccountEntity;
+  @OneToMany(
+    () => SavingGoalAccountEntity,
+    (savingAccount) => savingAccount.user,
+  )
+  savingAccount: SavingGoalAccountEntity;
 }
