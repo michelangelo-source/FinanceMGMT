@@ -11,6 +11,7 @@ import { BankAccountModule } from './bank-account/bank-account.module';
 import { CategoryModule } from './category/category.module';
 import { HistoryModule } from './history/history.module';
 import { SavingGoalModule } from './saving-goal/saving-goal.module';
+import { SavingGoalHistoryModule } from './saving-goal-history/saving-goal-history.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SavingGoalModule } from './saving-goal/saving-goal.module';
     CategoryModule,
     HistoryModule,
     SavingGoalModule,
+    SavingGoalHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

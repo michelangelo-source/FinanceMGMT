@@ -1,16 +1,18 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class HistoryDTO {
+export class SavingGoalHistoryDTO {
   constructor(
     amount: number,
     categoryId: number,
     description: string,
     title: string,
+    AccountId: number,
   ) {
     this.amount = amount;
     this.categoryId = categoryId;
     this.description = description;
     this.title = title;
+    this.AccountId = AccountId;
   }
 
   @IsNotEmpty()
@@ -25,4 +27,7 @@ export class HistoryDTO {
   @IsNotEmpty()
   @IsString()
   title: string;
+  @IsNotEmpty()
+  @IsNumber()
+  AccountId: number;
 }

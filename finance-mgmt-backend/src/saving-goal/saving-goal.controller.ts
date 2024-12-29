@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { SavingGoalService } from './saving-goal.service';
 import { SavingGoalDTO } from './saving-goalDTO';
 import { UserID } from '../user/user.decorator';
 import { TokenGuard } from '../token/token.guard';
 import { plainToInstance } from 'class-transformer';
 import { SavingGoalAccountEntity } from '../entities/SavingGoalAccount.entity';
+import { SavingGoalHistoryDTO } from '../saving-goal-history/saving-goal-historyDTO';
 
 @Controller('saving-goal')
 export class SavingGoalController {
@@ -29,5 +30,23 @@ export class SavingGoalController {
       SavingGoalAccountEntity,
       this.service.getAllForUser(userId),
     );
+  }
+
+  @Put('deposit')
+  @UseGuards(TokenGuard)
+  async deposit(
+    @UserID() userId: number,
+    @Body() deposit: SavingGoalHistoryDTO,
+  ) {
+    await this.service.deposit(userId, deposit);
+  }
+
+  @Put('expenditure')
+  @UseGuards(TokenGuard)
+  async expenditure(
+    @UserID() userId: number,
+    @Body() deposit: SavingGoalHistoryDTO,
+  ) {
+    await this.service.expenditure(userId, deposit);
   }
 }
