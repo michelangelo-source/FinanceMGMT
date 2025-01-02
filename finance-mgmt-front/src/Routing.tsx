@@ -6,6 +6,7 @@ import {MainPage} from "./componenets/Logged/MainPage/MainPage.tsx";
 import {userIsLogged} from "./hooks/userIsLogged.ts";
 import {AccountHistoryPage} from "./componenets/Logged/AccountHistory/AccountHisotryPage.tsx";
 import {TransactionForm} from "./componenets/Logged/Transaction/TransactionForm.tsx";
+import {SavingGoals} from "./componenets/Logged/SavingGoals/SavingGoals.tsx";
 
 const publicRoutes: RouteObject[] = [
     {
@@ -41,6 +42,10 @@ const privateRoutes: RouteObject[] = [
     {
         path: '*',
         element: <MainPage/>
+    },
+    {
+        path:'saving-goals',
+        element: <SavingGoals/>
     }
 
 ]

@@ -40,7 +40,7 @@ export const Navbar = (props: NavbarProps) => {
     const navigation = [
         {name: 'Main page', href: '/mainPage', current: false},
         {name: 'Reports', href: '#', current: false},
-        {name: 'Savings goals', href: '#', current: false},
+        {name: 'Savings goals', href: '/saving-goals', current: false},
         {name: 'Financial history', href: '/history', current: false},
         {name: 'My account', href: '#', current: false},
 

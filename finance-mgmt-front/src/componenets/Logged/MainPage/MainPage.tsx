@@ -1,27 +1,32 @@
 import {Navbar} from "../../Layout/Navbar.tsx";
 import bgIMG from '../../../assets/mainBG2.webp'
+import {PieChart} from '@mui/x-charts/PieChart';
 import {useEffect, useState} from "react";
 import {getBalance} from "./MainPageAPi/MainPage.ts";
 import {getHistory, Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
 import {classNames} from "../../../globalFun/clasnameConnector.ts";
 import {Button} from "@headlessui/react";
 import {useNavigate} from "react-router-dom";
+import {SavingGoal} from "../SavingGoals/SavingGoals.tsx";
+import {getSavingGoalsList} from "../SavingGoals/api/savingGoals.ts";
 
 export const MainPage = () => {
     const navigate = useNavigate();
     const [balance, setBalance] = useState<number>();
     const [history, setHistory] = useState<Transaction[]>();
     const [hover, setHover] = useState<boolean[]>();
+    const [savingGoals, setSavingGoals] = useState<SavingGoal[]>();
     useEffect(() => {
 
         getBalance().then((response) => {
-
             setBalance(response.balance)
         });
         getHistory().then((response) => {
             setHistory(response)
         })
-
+        getSavingGoalsList().then((response) => {
+            setSavingGoals(response)
+        })
 
     }, [])
     useEffect(() => {
@@ -42,8 +47,8 @@ export const MainPage = () => {
         }
     }
     const mouseOver = () => {
-        if (hover&& history) {
-            const newHover=Array(history.length).fill(false)
+        if (hover && history) {
+            const newHover = Array(history.length).fill(false)
 
             setHover(newHover)
         }
@@ -65,6 +70,37 @@ export const MainPage = () => {
                     </div>
                     <div className='bg-cyan-600 flex-grow text-white bg-opacity-60  text-4xl rounded-lg  p-6 m-5'>
                         Saving goals:
+
+
+                        <div>
+                            {savingGoals && savingGoals.map((el, index) => (
+                                <div key={index} className={'w-full flex flex-row'}>
+                                    <p>{el.description}</p>
+                                    <PieChart
+                                        series={[{
+                                            data: [{
+                                                id: index,
+                                                value: el.balance / el.goal * 100,
+                                                color: 'green',
+                                                label: el.description
+                                            }],
+                                            innerRadius: 10,
+                                            outerRadius: 14,
+                                            startAngle: 0,
+                                            endAngle: 360 * el.balance / el.goal,
+
+                                        }]}
+
+                                        slotProps={{legend: {hidden: true}}}
+                                        width={50}
+                                        height={50}
+                                    />
+                                    <p>{(el.balance / el.goal * 100).toFixed(2)}%</p>
+                                </div>
+                            ))}
+                        </div>
+
+
                     </div>
                 </div>
                 <div
@@ -73,10 +109,10 @@ export const MainPage = () => {
                     <ul>
                         {history ? history.map((item, index) => (
 
-                                <li key={index} onMouseEnter={() => mouseIn(index)}
-                                    onMouseLeave={() => mouseOver()}
-                                    className="text-lg flex flex-col justify-between items-center p-2 border-b border-gray-300">
-                                    <div className={''}>
+                            <li key={index} onMouseEnter={() => mouseIn(index)}
+                                onMouseLeave={() => mouseOver()}
+                                className="text-lg flex flex-col justify-between items-center p-2 border-b border-gray-300">
+                                <div className={''}>
                                     <span
                                         className={classNames(item.amount > 0 ? 'text-green-700' : 'text-red-800', "font-medium w-1/4")}>{item.amount}</span>
                                     <span className=" w-1/4">{item.title}</span>
@@ -92,10 +128,9 @@ export const MainPage = () => {
                                       })}
                                 </span>
                                 </div>
-                                    {(hover && hover[index]) ? (
-                                        <div className="text-sm text-gray-500 w-1/4">{item.description}</div>) : null}
-                                </li>
-
+                                {(hover && hover[index]) ? (
+                                    <div className="text-sm text-gray-500 w-1/4">{item.description}</div>) : null}
+                            </li>
 
 
                         )) : null}
