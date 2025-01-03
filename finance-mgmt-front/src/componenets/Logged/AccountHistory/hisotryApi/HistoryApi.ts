@@ -1,6 +1,10 @@
 import ky from "ky";
 import {API_URL} from "../../../../config.ts";
-
+export type Category={
+   id:number,
+   Category:string,
+   is_expanse:boolean,
+}
 export type Transaction ={
     id:number,
     amountBefore:number,
@@ -8,6 +12,7 @@ export type Transaction ={
     createdAt:Date,
     description : string;
     title : string;
+    category:Category
 }
 export const getHistory =async () => {
 

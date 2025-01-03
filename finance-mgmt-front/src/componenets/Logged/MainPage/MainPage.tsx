@@ -129,7 +129,7 @@ export const MainPage = () => {
                                 </span>
                                 </div>
                                 {(hover && hover[index]) ? (
-                                    <div className="text-sm text-gray-500 w-1/4">{item.description}</div>) : null}
+                                    <div className="text-sm text-gray-500 w-1/4">{item.description} {item.category.Category}</div>) : null}
                             </li>
 
 

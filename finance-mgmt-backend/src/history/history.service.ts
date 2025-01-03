@@ -26,7 +26,7 @@ export class HistoryService {
           user: { id: userId },
         },
       },
-      relations: ['account', 'account.user'],
+      relations: ['account', 'account.user', 'category'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -44,7 +44,7 @@ export class HistoryService {
         },
         createdAt: Between(dateFromStart, dateToEnd),
       },
-      relations: ['account', 'account.user'],
+      relations: ['account', 'account.user', 'category'],
       order: { createdAt: 'DESC' },
     });
   }
