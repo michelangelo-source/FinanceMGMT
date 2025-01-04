@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './User.service';
 import { RegisterRequestDTO } from './RegisterRequestDTO';
+import { TokenGuard } from '../token/token.guard';
+import { UserID } from './user.decorator';
+import { plainToInstance } from 'class-transformer';
+import { User } from '../entities/User.entity';
 
 @Controller('user')
 export class UserController {
@@ -11,8 +15,9 @@ export class UserController {
     return this.userService.save(user);
   }
 
-  @Get(':id')
-  getUserById(@Param('id') id: number) {
-    return this.userService.findById(id);
+  @Get('/own')
+  @UseGuards(TokenGuard)
+  async getOwnData(@UserID() userId: number) {
+    return plainToInstance(User, this.userService.findById(userId));
   }
 }

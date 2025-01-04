@@ -5,7 +5,7 @@ import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {classNames} from "../../globalFun/clasnameConnector.ts";
 import {useNotification} from "../Notification/useNotification.ts";
 
-export type NavbarPages = 'Main page' | 'Reports' | 'Savings goals' | 'Financial history' | 'My account'
+export type NavbarPages = 'Main page' | 'Summary' | 'Savings goals' | 'Financial history' | 'My account'
 
 interface NavbarProps {
     ActivePage: NavbarPages
@@ -39,10 +39,10 @@ export const Navbar = (props: NavbarProps) => {
 
     const navigation = [
         {name: 'Main page', href: '/mainPage', current: false},
-        {name: 'Reports', href: '#', current: false},
+        {name: 'Summary', href: '/summary', current: false},
         {name: 'Savings goals', href: '/saving-goals', current: false},
         {name: 'Financial history', href: '/history', current: false},
-        {name: 'My account', href: '#', current: false},
+        {name: 'My account', href: '/my-account', current: false},
 
     ]
     const active = navigation.find(element => element.name == props.ActivePage)
