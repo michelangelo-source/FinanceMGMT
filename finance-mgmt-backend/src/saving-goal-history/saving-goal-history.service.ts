@@ -100,4 +100,10 @@ export class SavingGoalHistoryService {
       order: { createdAt: 'DESC' },
     });
   }
+
+  async delete(savingGoalId: number) {
+    await this.savingGoalHistoryEntityRepository.delete({
+      savingAccount: { id: savingGoalId },
+    });
+  }
 }

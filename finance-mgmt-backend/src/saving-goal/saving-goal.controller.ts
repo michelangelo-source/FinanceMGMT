@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { SavingGoalService } from './saving-goal.service';
 import { SavingGoalDTO } from './saving-goalDTO';
 import { UserID } from '../user/user.decorator';
@@ -48,5 +57,11 @@ export class SavingGoalController {
     @Body() deposit: SavingGoalHistoryDTO,
   ) {
     await this.service.expenditure(userId, deposit);
+  }
+
+  @Delete('/:id')
+  @UseGuards(TokenGuard)
+  async delete(@UserID() userId: number, @Param('id') id: number) {
+    await this.service.deleteSavingGoal(userId, id);
   }
 }

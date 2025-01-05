@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SavingGoalAccountEntity } from '../entities/SavingGoalAccount.entity';
 import { Repository } from 'typeorm';
@@ -95,5 +95,25 @@ export class SavingGoalService {
       id: AccountId,
       user: { id: userId },
     });
+  }
+
+  async deleteSavingGoal(userID: number, savingGoalId: number) {
+    const savingGoal = await this.savingGoalAccountRepository.findOneBy({
+      id: savingGoalId,
+    });
+    if (!savingGoal) {
+      throw new NotFoundException(
+        `Saving goal with ID ${savingGoalId} not found.`,
+      );
+    }
+    const historyDTO = new HistoryDTO(
+      savingGoal.balance,
+      12,
+      'deleting SavingGoal',
+      'deleting SavingGoal',
+    );
+    await this.bankAccountService.deposit(userID, historyDTO);
+    await this.savingGoalHistoryService.delete(savingGoalId);
+    await this.savingGoalAccountRepository.delete(savingGoalId);
   }
 }

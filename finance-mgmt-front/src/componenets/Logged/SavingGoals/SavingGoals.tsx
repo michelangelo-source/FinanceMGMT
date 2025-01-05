@@ -1,11 +1,12 @@
 import {Navbar} from "../../Layout/Navbar/Navbar.tsx";
 import bgIMG from "../../../assets/mainBG2.webp";
 import {useEffect, useState} from "react";
-import {getSavingGoalHistoryByDates, getSavingGoalsList} from "./api/savingGoals.ts";
+import {deleteSavingGoal, getSavingGoalHistoryByDates, getSavingGoalsList} from "./api/savingGoals.ts";
 import {PieChart} from "@mui/x-charts/PieChart";
 import {Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
 import {HistoryList} from "../../Layout/hisotryList/historyList.tsx";
 import {classNames} from "../../../globalFun/clasnameConnector.ts";
+import {useNotification} from "../../Notification/useNotification.ts";
 
 export interface SavingGoal {
     id: number,
@@ -15,11 +16,12 @@ export interface SavingGoal {
 }
 
 export const SavingGoals = () => {
-    const [activeSavingGoal, setActiveSavingGoal] = useState<number>()
+    const [activeSavingGoal, setActiveSavingGoal] = useState<number>(0)
     const [savingGoals, setSavingGoals] = useState<SavingGoal[]>([]);
     const [savingsHistory, setSavingsHistory] = useState<Transaction[]>([]);
     const [dateTo, setDateTo] = useState<string>(new Date(Date.now()).toISOString().split('T')[0]);
     const [dateFrom, setDateFrom] = useState<string>(new Date(Date.now() - 90 * 1000 * 60 * 60 * 24).toISOString().split('T')[0]);
+    const {setNotification}=useNotification()
     useEffect(() => {
 
 
@@ -42,6 +44,31 @@ export const SavingGoals = () => {
             setActiveSavingGoal(id)
         })
     }
+    const handelDeleteSavingGoal = () => {
+        try {
+            deleteSavingGoal(savingGoals[activeSavingGoal].id).then()
+            getSavingGoalsList().then((response) => {
+                setSavingGoals(response)
+            })
+            setNotification({
+                duration:2000,
+                message:"Saving Goal deleted",
+                id:Date.now(),
+                type:"success",
+            })
+        }catch (err){
+            const error=err as Error
+            console.log(error)
+            setNotification({
+                duration:2000,
+                message:"Something went wrong",
+                id:Date.now(),
+                type:"error",
+            })
+        }
+
+
+    }
     return (<div
             style={{backgroundImage: `url(${bgIMG})`}}
             className="flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center"
@@ -58,7 +85,7 @@ export const SavingGoals = () => {
                             className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-1/2 text-white font-semibold cursor-pointer rounded-xl ">
                             Add
                         </button>
-                        <button
+                        <button onClick={handelDeleteSavingGoal}
                             className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-1/2 text-white font-semibold cursor-pointer rounded-xl ">
                             Delete
                         </button>
@@ -69,12 +96,10 @@ export const SavingGoals = () => {
                         savingGoals.map((el, index) => (
                             <div
                                 key={index}
-
-                                className={classNames(activeSavingGoal == index ? 'bg-cyan-600' : " ", "flex flex-row items-center justify-between p-3 hover:bg-cyan-700 text-white cursor-pointer rounded-lg transition duration-200 ease-in-out border-b border-gray-300")}
-
+                                className={classNames(activeSavingGoal == index ? 'bg-cyan-600' : " ", "flex flex-row items-center justify-between p-3 hover:bg-cyan-700 text-white cursor-pointer rounded-lg transition duration-200 ease-in-out border-b ")}
                                 onClick={() => handleChooseSavingGoal(index)}
                             >
-                                <p className="text-sm font-medium">{el.description}</p>
+                                <p className="text-lg font-medium">{el.description}</p>
                                 <PieChart
                                     series={[
                                         {
@@ -96,7 +121,7 @@ export const SavingGoals = () => {
                                     width={50}
                                     height={50}
                                 />
-                                <p className="text-sm font-semibold">
+                                <p className="text-lg font-semibold">
                                     {(el.balance / el.goal * 100).toFixed(2)}%
                                 </p>
                             </div>
