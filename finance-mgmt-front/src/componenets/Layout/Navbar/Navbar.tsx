@@ -2,8 +2,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {APIlogout} from "./NavbarApi/logout.ts";
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
-import {classNames} from "../../globalFun/clasnameConnector.ts";
-import {useNotification} from "../Notification/useNotification.ts";
+import {classNames} from "../../../globalFun/clasnameConnector.ts";
+import {useNotification} from "../../Notification/useNotification.ts";
 
 export type NavbarPages = 'Main page' | 'Summary' | 'Savings goals' | 'Financial history' | 'My account'
 

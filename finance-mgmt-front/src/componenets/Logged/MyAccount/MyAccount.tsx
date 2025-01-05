@@ -1,4 +1,4 @@
-import {Navbar} from "../../Layout/Navbar.tsx";
+import {Navbar} from "../../Layout/Navbar/Navbar.tsx";
 import bgIMG from "../../../assets/mainBG2.webp";
 import {useEffect, useState} from "react";
 import {AccountInfo, getAccounts, putChangePassword, putNewUserData} from "./api/AccountData.ts";

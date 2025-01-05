@@ -1,5 +1,5 @@
 import bgIMG from "../../../assets/mainBG2.webp";
-import {Navbar} from "../../Layout/Navbar.tsx";
+import {Navbar} from "../../Layout/Navbar/Navbar.tsx";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";

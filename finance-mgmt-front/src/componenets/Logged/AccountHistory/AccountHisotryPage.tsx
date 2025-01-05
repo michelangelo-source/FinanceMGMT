@@ -1,13 +1,14 @@
-import {Navbar} from "../../Layout/Navbar.tsx";
+import {Navbar} from "../../Layout/Navbar/Navbar.tsx";
 import bgIMG from "../../../assets/mainBG2.webp";
-import {classNames} from "../../../globalFun/clasnameConnector.ts";
 import {useEffect, useState} from "react";
-import { getHistoryByDates, Transaction} from "./hisotryApi/HistoryApi.ts";
+import {getHistoryByDates, Transaction} from "./hisotryApi/HistoryApi.ts";
+import {HistoryList} from "../../Layout/hisotryList/historyList.tsx";
+
 type Filters="all"|"incomes"|"expenditures"
 export const AccountHistoryPage = () => {
     const [dateTo,setDateTo] = useState<string>(new Date(Date.now()).toISOString().split('T')[0]);
     const [dateFrom,setDateFrom] = useState<string>(new Date(Date.now()-90*1000*60*60*24).toISOString().split('T')[0]);
-    const [history, setHistory] = useState<Transaction[]>();
+    const [history, setHistory] = useState<Transaction[]>([]);
     const [allHistory, setAllHistory] = useState<Transaction[]>();
     const [filter, setFilter] = useState<Filters>("all");
     useEffect(() => {
@@ -124,28 +125,7 @@ export const AccountHistoryPage = () => {
                 <div
                     className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5'>
                     History:
-                    <ul>
-                        {history ? history.map((item) => (
-                            <li key={item.id}
-                                className="text-lg flex justify-between items-center p-2 border-b border-gray-300">
-                                    <span
-                                        className={classNames(item.amount > 0 ? 'text-green-700' : 'text-red-800', "font-medium w-1/4")}>{item.amount}</span>
-                                <span className=" w-1/4">{item.title}</span>
-                                <span
-                                    className='w-1/4'>{(Number(item.amountBefore) + Number(item.amount)) % 1 == 0 ? Number(item.amountBefore) + Number(item.amount) + ".00" : (Number(item.amountBefore) + Number(item.amount)).toFixed(2)}</span>
-                                <span className="text-sm text-gray-500 w-1/4">
-                                      {new Date(item.createdAt).toLocaleString('pl-PL', {
-                                          day: 'numeric',
-                                          month: '2-digit',
-                                          year: 'numeric',
-                                          hour: '2-digit',
-                                          minute: '2-digit',
-                                      })}
-                                     </span>
-                            </li>
-
-                        )) : null}
-                    </ul>
+                    <HistoryList history={history}></HistoryList>
                 </div>
             </div>
         </div>

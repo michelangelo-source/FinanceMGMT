@@ -1,5 +1,5 @@
 import bgIMG from "../../../assets/mainBG2.webp";
-import {Navbar} from "../../Layout/Navbar.tsx";
+import {Navbar} from "../../Layout/Navbar/Navbar.tsx";
 
 export const Summary = ()=>{
     return (

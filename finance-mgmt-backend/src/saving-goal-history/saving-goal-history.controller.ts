@@ -21,6 +21,18 @@ export class SavingGoalHistoryController {
     );
   }
 
+  @Get('own/:id')
+  @UseGuards(TokenGuard)
+  async getHistoryForOne(
+    @UserID() userId: number,
+    @Param('id') savingId: number,
+  ) {
+    return plainToInstance(
+      SavingGoalHistoryEntity,
+      this.savingGoalHistoryService.getHistoryForOne(userId, savingId),
+    );
+  }
+
   @Get('own/:dateFrom/:dateTo')
   @UseGuards(TokenGuard)
   async getOwnHistoryByDates(
@@ -32,6 +44,25 @@ export class SavingGoalHistoryController {
       HistoryEntity,
       this.savingGoalHistoryService.getOwnHistoryByDates(
         userId,
+        dateFrom,
+        dateTo,
+      ),
+    );
+  }
+
+  @Get('own/:id/:dateFrom/:dateTo')
+  @UseGuards(TokenGuard)
+  async getHistoryForOneByDates(
+    @UserID() userId: number,
+    @Param('id') savingId: number,
+    @Param('dateFrom') dateFrom: Date,
+    @Param('dateTo') dateTo: Date,
+  ) {
+    return plainToInstance(
+      HistoryEntity,
+      this.savingGoalHistoryService.getHistoryForOnByDates(
+        userId,
+        savingId,
         dateFrom,
         dateTo,
       ),

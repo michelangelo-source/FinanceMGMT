@@ -23,7 +23,7 @@ export class SavingGoalHistoryService {
           user: { id: userId },
         },
       },
-      relations: ['account', 'account.user'],
+      relations: ['savingAccount', 'category'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -41,7 +41,7 @@ export class SavingGoalHistoryService {
         },
         createdAt: Between(dateFromStart, dateToEnd),
       },
-      relations: ['account', 'account.user'],
+      relations: ['savingAccount', 'category'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -61,6 +61,43 @@ export class SavingGoalHistoryService {
       createdAt: new Date(),
       description: savingHistoryDTO.description,
       title: savingHistoryDTO.title,
+    });
+  }
+
+  async getHistoryForOne(userId: number, savingId: number) {
+    return await this.savingGoalHistoryEntityRepository.find({
+      where: {
+        savingAccount: {
+          id: savingId,
+          user: { id: userId },
+        },
+      },
+      relations: ['savingAccount', 'category'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async getHistoryForOnByDates(
+    userId: number,
+    savingId: number,
+    dateFrom: Date,
+    dateTo: Date,
+  ) {
+    const dateFromStart = new Date(dateFrom);
+    dateFromStart.setHours(0, 0, 0, 0);
+
+    const dateToEnd = new Date(dateTo);
+    dateToEnd.setHours(23, 59, 59, 999);
+    return await this.savingGoalHistoryEntityRepository.find({
+      where: {
+        savingAccount: {
+          id: savingId,
+          user: { id: userId },
+        },
+        createdAt: Between(dateFromStart, dateToEnd),
+      },
+      relations: ['savingAccount', 'category'],
+      order: { createdAt: 'DESC' },
     });
   }
 }
