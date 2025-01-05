@@ -1,8 +1,9 @@
 import {Navbar} from "../../Layout/Navbar.tsx";
 import bgIMG from "../../../assets/mainBG2.webp";
 import {useEffect, useState} from "react";
-import {AccountInfo, getAccounts} from "./api/AccountData.ts";
+import {AccountInfo, getAccounts, putNewUserData} from "./api/AccountData.ts";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useNotification} from "../../Notification/useNotification.ts";
 
 interface PasswdChange {
     oldPassword: string;
@@ -15,6 +16,7 @@ export const MyAccount = () => {
     const [editName, setEditName] = useState<boolean>(false);
     const [editLogin, setEditLogin] = useState<boolean>(false);
     const [editPassword, setEditPassword] = useState<boolean>(false);
+    const {setNotification} = useNotification();
     const {
         register: registerAccount,
         handleSubmit: handleSubmitAccount,
@@ -38,13 +40,24 @@ export const MyAccount = () => {
         setEditName(false);
 
     }
-    const handleDataChange: SubmitHandler<AccountInfo> = (data) => {
-        if(!editName&&userData){
-            data.name=userData.name;
-        }if(!editLogin&&userData){
-            data.login=userData.login;
+    const handleDataChange: SubmitHandler<AccountInfo> = async (data) => {
+        if (!editName && userData) {
+            data.name = userData.name;
         }
-        console.log(data);
+        if (!editLogin && userData) {
+            data.login = userData.login;
+        }
+        try {
+            const res=await putNewUserData(data)
+            setUserData(res)
+            setNotification({duration: 1000, id: Date.now(), message: "Changed successfully", type: "success"});
+            deactivateEditMode()
+
+        } catch (err) {
+            const error =err as Error;
+                setNotification({duration: 3000, id: Date.now(), message: error.message, type: "error"})
+            }
+
     }
     const handlePasswordChange: SubmitHandler<PasswdChange> = (data) => {
         console.log(data)
@@ -55,12 +68,13 @@ export const MyAccount = () => {
             style={{backgroundImage: `url(${bgIMG})`}}
             className="flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center"
         >
-            <Navbar ActivePage={"My account"} />
+            <Navbar ActivePage={"My account"}/>
             <div
                 className="flex flex-col w-11/12 sm:w-3/4 lg:w-2/5 rounded-2xl bg-white bg-opacity-60 p-6 text-gray-800"
             >
                 {userData && (
-                    <div className="flex flex-col bg-cyan-600 bg-opacity-60 rounded-lg p-6 space-y-4 text-white shadow-md">
+                    <div
+                        className="flex flex-col bg-cyan-600 bg-opacity-60 rounded-lg p-6 space-y-4 text-white shadow-md">
                         <form onSubmit={handleSubmitAccount(handleDataChange)} className="space-y-4">
                             <p className="font-semibold">Name:</p>
                             {editName ? (
@@ -68,7 +82,7 @@ export const MyAccount = () => {
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300 text-gray-800"
                                     type="text"
                                     defaultValue={userData.name}
-                                    {...registerAccount("name", { required: true })}
+                                    {...registerAccount("name", {required: true})}
                                 />
                             ) : (
                                 <p
@@ -85,7 +99,7 @@ export const MyAccount = () => {
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300 text-gray-800"
                                     type="text"
                                     defaultValue={userData.login}
-                                    {...registerAccount("login", { required: true })}
+                                    {...registerAccount("login", {required: true})}
                                 />
                             ) : (
                                 <p
@@ -102,7 +116,7 @@ export const MyAccount = () => {
                                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300 text-gray-800"
                                         type="password"
                                         placeholder="Current password"
-                                        {...registerAccount("password", { required: "Insert password" })}
+                                        {...registerAccount("password", {required: "Insert password"})}
                                     />
                                     <p>{accountErrors.password?.message}</p>
                                     <div className="flex space-x-4">

@@ -4,8 +4,10 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/User.entity';
 import { RegisterRequestDTO } from './RegisterRequestDTO';
 import * as bcrypt from 'bcrypt';
-import { UserAlreadyExistsException } from '../exceptions/user-already-exists-exception';
 import { BankAccountService } from '../bank-account/bank-account.service';
+import { UserDoesNotExsistsException } from '../exceptions/user-does-not-exsists-exception';
+import { BadPasswordException } from '../exceptions/bad-password-exception';
+import { LoginTakenException } from '../exceptions/login-taken-exception';
 
 @Injectable()
 export class UserService {
@@ -19,7 +21,7 @@ export class UserService {
       login: userRegisterRequest.login,
     });
     if (userExists) {
-      throw new UserAlreadyExistsException();
+      throw new LoginTakenException();
     }
     const hashedPassword = await bcrypt.hash(userRegisterRequest.password, 10);
 
@@ -37,5 +39,26 @@ export class UserService {
 
   async findById(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id: id });
+  }
+
+  async editUser(userId: number, user: RegisterRequestDTO) {
+    const userExists = await this.userRepository.findOneBy({ id: userId });
+    if (!userExists) {
+      throw new UserDoesNotExsistsException();
+    }
+    const loginTaken = await this.userRepository.findOneBy({
+      login: user.login,
+    });
+    if (loginTaken) {
+      throw new LoginTakenException();
+    }
+    const isValid = await bcrypt.compare(user.password, userExists.password);
+    if (isValid) {
+      userExists.name = user.name;
+      userExists.login = user.login;
+    } else {
+      throw new BadPasswordException();
+    }
+    return this.userRepository.save(userExists);
   }
 }
