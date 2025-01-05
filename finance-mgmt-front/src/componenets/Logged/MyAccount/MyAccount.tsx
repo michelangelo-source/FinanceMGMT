@@ -1,15 +1,21 @@
 import {Navbar} from "../../Layout/Navbar.tsx";
 import bgIMG from "../../../assets/mainBG2.webp";
 import {useEffect, useState} from "react";
-import {AccountInfo, getAccounts, putNewUserData} from "./api/AccountData.ts";
+import {AccountInfo, getAccounts, putChangePassword, putNewUserData} from "./api/AccountData.ts";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useNotification} from "../../Notification/useNotification.ts";
 
-interface PasswdChange {
+export interface PasswdChange {
     oldPassword: string;
     newPassword: string;
 }
 
+export interface ChangingData {
+    name: string;
+    login: string;
+    password: string;
+    loginChanged: boolean;
+}
 
 export const MyAccount = () => {
     const [userData, setUserData] = useState<AccountInfo>();
@@ -21,7 +27,7 @@ export const MyAccount = () => {
         register: registerAccount,
         handleSubmit: handleSubmitAccount,
         formState: {errors: accountErrors},
-    } = useForm<AccountInfo>();
+    } = useForm<ChangingData>();
 
     const {
         register: registerPassword,
@@ -40,27 +46,37 @@ export const MyAccount = () => {
         setEditName(false);
 
     }
-    const handleDataChange: SubmitHandler<AccountInfo> = async (data) => {
+    const handleDataChange: SubmitHandler<ChangingData> = async (data) => {
+        data.loginChanged = false
         if (!editName && userData) {
             data.name = userData.name;
         }
         if (!editLogin && userData) {
             data.login = userData.login;
         }
+        if (editLogin && userData && data.login != userData.login) {
+            data.loginChanged = true;
+        }
         try {
-            const res=await putNewUserData(data)
+            const res = await putNewUserData(data)
             setUserData(res)
             setNotification({duration: 1000, id: Date.now(), message: "Changed successfully", type: "success"});
             deactivateEditMode()
-
         } catch (err) {
-            const error =err as Error;
-                setNotification({duration: 3000, id: Date.now(), message: error.message, type: "error"})
-            }
+            const error = err as Error;
+            setNotification({duration: 3000, id: Date.now(), message: error.message, type: "error"})
+        }
 
     }
-    const handlePasswordChange: SubmitHandler<PasswdChange> = (data) => {
-        console.log(data)
+    const handlePasswordChange: SubmitHandler<PasswdChange> = async (data) => {
+        try {
+            await putChangePassword(data)
+            setNotification({duration: 1000, id: Date.now(), message: "Changed successfully", type: "success"});
+            setEditPassword(false)
+        } catch (err) {
+            const error = err as Error;
+            setNotification({duration: 3000, id: Date.now(), message: error.message, type: "error"})
+        }
     }
 
     return (
@@ -159,7 +175,17 @@ export const MyAccount = () => {
                                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-300 text-gray-800"
                                         type="password"
                                         placeholder="New password"
-                                        {...registerPassword("newPassword", {required: "Insert password"})}
+                                        {...registerPassword("newPassword", {
+                                            required: "Insert password", minLength:
+                                                {
+                                                    value: 8, message: "Min length 8"
+                                                },
+                                            pattern:
+                                                {
+                                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/i,
+                                                    message: "One big, one small, ona digit, one special charter"
+                                                }
+                                        })}
                                     />
                                     <p>{passwordErrors.newPassword?.message}</p>
                                     <div className="flex space-x-4">

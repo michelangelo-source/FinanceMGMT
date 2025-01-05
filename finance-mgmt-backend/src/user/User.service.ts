@@ -8,6 +8,8 @@ import { BankAccountService } from '../bank-account/bank-account.service';
 import { UserDoesNotExsistsException } from '../exceptions/user-does-not-exsists-exception';
 import { BadPasswordException } from '../exceptions/bad-password-exception';
 import { LoginTakenException } from '../exceptions/login-taken-exception';
+import { UserDataDTO } from './ChangingUserDataDTO';
+import { ChangePasswordDTO } from './ChangePasswordDTO';
 
 @Injectable()
 export class UserService {
@@ -41,21 +43,40 @@ export class UserService {
     return this.userRepository.findOneBy({ id: id });
   }
 
-  async editUser(userId: number, user: RegisterRequestDTO) {
+  async editUser(userId: number, user: UserDataDTO) {
     const userExists = await this.userRepository.findOneBy({ id: userId });
     if (!userExists) {
       throw new UserDoesNotExsistsException();
     }
-    const loginTaken = await this.userRepository.findOneBy({
-      login: user.login,
-    });
-    if (loginTaken) {
-      throw new LoginTakenException();
+    if (user.loginChanged) {
+      const loginTaken = await this.userRepository.findOneBy({
+        login: user.login,
+      });
+      if (loginTaken) {
+        throw new LoginTakenException();
+      }
     }
     const isValid = await bcrypt.compare(user.password, userExists.password);
     if (isValid) {
       userExists.name = user.name;
       userExists.login = user.login;
+    } else {
+      throw new BadPasswordException();
+    }
+    return this.userRepository.save(userExists);
+  }
+
+  async changePassword(userId: number, passwords: ChangePasswordDTO) {
+    const userExists = await this.userRepository.findOneBy({ id: userId });
+    if (!userExists) {
+      throw new UserDoesNotExsistsException();
+    }
+    const isValid = await bcrypt.compare(
+      passwords.oldPassword,
+      userExists.password,
+    );
+    if (isValid) {
+      userExists.password = await bcrypt.hash(passwords.newPassword, 10);
     } else {
       throw new BadPasswordException();
     }
