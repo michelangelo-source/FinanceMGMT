@@ -52,12 +52,12 @@ export const SavingGoals = () => {
                     <div className="flex flex-row items-center w-full space-x-4 justify-between">
                         {savingGoals[activeSavingGoal] && <button onClick={()=>setActiveMode('deposit')}
                             className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-full text-white font-semibold cursor-pointer rounded-xl ">Deposit
-                            money </button>}
+                             </button>}
                         {savingGoals[activeSavingGoal] && savingGoals[activeSavingGoal].balance > 0 ? <button onClick={()=>setActiveMode("withdraw")}
                             className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-full text-white font-semibold cursor-pointer rounded-xl ">Withdraw
-                            money</button> : null}
+                            </button> : null}
                     </div>
-                    <div className="flex flex-row items-center w-full space-x-4 text-white text-lg">
+                    <div className="flex flex-row items-center w-full space-x-4 text-white text-lg ">
                         <label htmlFor="dateFrom" className="font-medium">
                             From:
                         </label>
@@ -86,7 +86,7 @@ export const SavingGoals = () => {
                             className="w-1/3 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:outline-none text-gray-700 bg-white"
                         />
                     </div>
-                    <div className="w-full mt-4 text-white">
+                    <div className="w-full mt-4 text-white ">
                         <HistoryList history={savingsHistory}></HistoryList>
                     </div>
                 </>)
@@ -142,10 +142,10 @@ export const SavingGoals = () => {
       bg-white bg-opacity-90 shadow-lg overflow-hidden"
         >
             <div
-                className="flex flex-col lg:w-1/3 p-4 space-y-4 overflow-y-auto bg-cyan-600 bg-opacity-60 m-5 rounded-xl">
+                className="flex flex-col lg:w-1/3  h-1/3 md:h-auto p-4 space-y-4 overflow-y-auto bg-cyan-600 bg-opacity-60 m-5 rounded-xl overflow-auto">
                 <div className="flex flex-row space-x-4 w-full">
                     <button onClick={() => setActiveMode("adding")}
-                            className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-1/2 text-white font-semibold cursor-pointer rounded-xl ">
+                            className="h-12 px-4 bg-cyan-500 hover:bg-cyan-600 w-1/2  text-white font-semibold cursor-pointer rounded-xl ">
                         Add
                     </button>
                     <button onClick={handelDeleteSavingGoal}
@@ -190,8 +190,9 @@ export const SavingGoals = () => {
                         </div>
                     ))}
             </div>
+
             <div
-                className="flex flex-col text-2xl text-white lg:w-2/3 items-center p-6 space-y-6 bg-cyan-600 bg-opacity-60 m-5 rounded-lg">
+                className="flex flex-col text-2xl text-white  h-2/3 md:h-auto lg:w-2/3 items-center p-6 space-y-6 bg-cyan-600 bg-opacity-60 m-5 rounded-lg overflow-auto">
                 {savingGoals[activeSavingGoal]&& activeMode!='adding' ?<div className={'flex flex-col justify-center items-center'}>{savingGoals[activeSavingGoal].description}<div className={'flex flex-row space-x-4'  }><p>Goal: {savingGoals[activeSavingGoal].goal}</p>
                     <p>balance :{savingGoals[activeSavingGoal].balance}</p></div> </div>: null}
                 {activeModeSwitch()}

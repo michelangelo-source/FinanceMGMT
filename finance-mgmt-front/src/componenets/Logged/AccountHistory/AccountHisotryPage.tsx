@@ -48,82 +48,87 @@ export const AccountHistoryPage = () => {
             bg-white bg-opacity-80'>
 
                 <div
-                    className="flex flex-col sm:flex-row items-center justify-around bg-cyan-600 text-white bg-opacity-60 rounded-lg text-xl p-6 mt-5 mx-5 space-y-4 sm:space-y-0">
-                    <div className="flex items-center space-x-2">
-                        <input
-                            id="all"
-                            name="filters"
-                            type="radio"
-                            value="all"
-                            defaultChecked={true}
-                            onChange={()=>filterHistory("all")}
-                            className="accent-cyan-500"
-                        />
-                        <label htmlFor="all" className="cursor-pointer">
-                            All
-                        </label>
+                    className="flex flex-col sm:flex-row items-center justify-between bg-cyan-600 text-white bg-opacity-60 rounded-lg text-lg p-6 mt-5 mx-5 space-y-6 sm:space-y-0 sm:space-x-6"
+                >
+                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <div className="flex items-center space-x-2">
+                            <input
+                                id="all"
+                                name="filters"
+                                type="radio"
+                                value="all"
+                                defaultChecked={true}
+                                onChange={() => filterHistory("all")}
+                                className="accent-cyan-500 cursor-pointer"
+                            />
+                            <label htmlFor="all" className="cursor-pointer">
+                                All
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                id="incomes"
+                                name="filters"
+                                type="radio"
+                                value="incomes"
+                                onChange={() => filterHistory("incomes")}
+                                className="accent-cyan-500 cursor-pointer"
+                            />
+                            <label htmlFor="incomes" className="cursor-pointer">
+                                Incomes
+                            </label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <input
+                                id="expenditures"
+                                name="filters"
+                                type="radio"
+                                value="expenditures"
+                                onChange={() => filterHistory("expenditures")}
+                                className="accent-cyan-500 cursor-pointer"
+                            />
+                            <label htmlFor="expenditures" className="cursor-pointer">
+                                Expenditures
+                            </label>
+                        </div>
                     </div>
+
                     <div className="flex items-center space-x-2">
-                        <input
-                            id="incomes"
-                            name="filters"
-                            type="radio"
-                            value="incomes"
-                            onChange={() => filterHistory("incomes")}
-                            className="accent-cyan-500"
-                        />
-                        <label htmlFor="incomes" className="cursor-pointer">
-                            Incomes
-                        </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <input
-                            id="expenditures"
-                            name="filters"
-                            type="radio"
-                            value="expenditures"
-                            onChange={() => filterHistory("expenditures")}
-                            className="accent-cyan-500"
-                        />
-                        <label htmlFor="expenditures" className="cursor-pointer">
-                            Expenditures
-                        </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <label htmlFor="dateFrom">
+                        <label htmlFor="dateFrom" className="whitespace-nowrap">
                             From:
                         </label>
                         <input
                             id="dateFrom"
                             type="date"
-                            min={'1950-01-01'}
+                            min="1950-01-01"
                             max={dateTo}
-                            defaultValue={new Date(Date.now()-90*1000*60*60*24).toISOString().split('T')[0]}
-                            onChange={(e)=>setDateFrom(e.currentTarget.value)}
-                            className="accent-cyan-500 text-black bg-opacity-80 rounded-md"
+                            defaultValue={new Date(Date.now() - 90 * 1000 * 60 * 60 * 24)
+                                .toISOString()
+                                .split("T")[0]}
+                            onChange={(e) => setDateFrom(e.currentTarget.value)}
+                            className="w-full sm:w-auto text-black bg-opacity-80 rounded-md p-2 border border-gray-300"
                         />
-
                     </div>
+
                     <div className="flex items-center space-x-2">
-                        <label htmlFor="dateTo">
+                        <label htmlFor="dateTo" className="whitespace-nowrap">
                             To:
                         </label>
                         <input
-                            defaultValue={new Date(Date.now()).toISOString().split('T')[0]}
                             id="dateTo"
                             type="date"
                             min={dateFrom}
-                            max={new Date(Date.now()).toISOString().split('T')[0]}
-                            onChange={(e)=>setDateTo(e.currentTarget.value)}
-                            className="accent-cyan-500 text-black bg-opacity-80 rounded-md"
+                            max={new Date(Date.now()).toISOString().split("T")[0]}
+                            defaultValue={new Date(Date.now()).toISOString().split("T")[0]}
+                            onChange={(e) => setDateTo(e.currentTarget.value)}
+                            className="w-full sm:w-auto text-black bg-opacity-80 rounded-md p-2 border border-gray-300"
                         />
-
                     </div>
                 </div>
 
 
                 <div
-                    className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5'>
+                    className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5 overflow-auto'>
                     History:
                     <HistoryList history={history}></HistoryList>
                 </div>

@@ -51,74 +51,121 @@ export const TransactionForm = () => {
         }
     }
     return (
-        <div style={{backgroundImage: `url(${bgIMG})`}}
-             className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
-            <Navbar ActivePage='Main page'/>
+        <div
+            style={{backgroundImage: `url(${bgIMG})`}}
+            className="flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center"
+        >
+            <Navbar ActivePage="Main page"/>
 
-
-            <div className='flex flex-col  h-4/5 w-4/5 lg:w-2/3 rounded-lg text-cyan-600
-            bg-white bg-opacity-80'>
-                <div className="flex flex-col items-center justify-center
-                 rounded-xl w-11/12 h-3/4 md:w-4/5 lg:w-2/3 xl:w-1/2
-            p-2 bg-cyan-600  text-white bg-opacity-90">
-                    <form className={'flex flex-col justify-center it  w-3/5 md:w-1/3'}
-                          onSubmit={handleSubmit(handleSubmitFun)}>
-                        <div className="flex flex-row items-center space-x-2">
-                            <input
-                                id="incomes"
-                                name="filters"
-                                type="radio"
-                                value="incomes"
-                                onChange={() => categoryType("incomes")}
-                                className="accent-cyan-500"
-                            />
-                            <label htmlFor="incomes" className="cursor-pointer">
-                                Incomes
-                            </label>
-
-
-                            <input
-                                id="expenditures"
-                                name="filters"
-                                type="radio"
-                                value="expenditures"
-                                onChange={() => categoryType("expenditures")}
-                                className="accent-cyan-500"
-                            />
-                            <label htmlFor="expenditures" className="cursor-pointer">
-                                Expenditures
-                            </label>
+            <div
+                className="flex flex-col items-center justify-center h-4/5 w-11/12 md:w-4/5 lg:w-2/3 xl:w-1/3 rounded-lg text-cyan-600 bg-white bg-opacity-60 shadow-lg">
+                <div
+                    className="flex flex-col items-center justify-center rounded-xl h-auto w-11/12 md:w-4/5 lg:w-2/3 xl:w-5/6 p-4 bg-cyan-600 text-white bg-opacity-60 shadow-md"
+                >
+                    <form
+                        className="flex flex-col justify-center items-center w-full md:w-3/5 lg:w-1/2 space-y-4"
+                        onSubmit={handleSubmit(handleSubmitFun)}
+                    >
+                        <div className="flex flex-row items-center justify-around w-full space-x-4">
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    id="incomes"
+                                    name="filters"
+                                    type="radio"
+                                    value="incomes"
+                                    onChange={() => categoryType("incomes")}
+                                    className="accent-cyan-500 cursor-pointer"
+                                />
+                                <label htmlFor="incomes" className="cursor-pointer">
+                                    Incomes
+                                </label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    id="expenditures"
+                                    name="filters"
+                                    type="radio"
+                                    value="expenditures"
+                                    onChange={() => categoryType("expenditures")}
+                                    className="accent-cyan-500 cursor-pointer"
+                                />
+                                <label htmlFor="expenditures" className="cursor-pointer">
+                                    Expenditures
+                                </label>
+                            </div>
                         </div>
-                        <label htmlFor={"categories"}>
-                            Choose a category:
-                        </label>
-                        <select id={"categories"}
-                                className={"text-black rounded-xl p-2"} {...register('categoryId', {required: "Select category!!!"})}>
-                            {selectedCategories.map((category) => (
-                                <option value={category.id} key={category.id}>{category.Category}</option>))}
-                        </select>
-                        <p> {errors.categoryId?.message}</p>
-                        <label htmlFor={"login"}>Amount:</label>
-                        <input type={"number"} min={0}
-                               step={0.01}  {...register('amount', {required: "Insert amount!!!"})}
-                               className={'text-black rounded-xl p-2'} placeholder={"Amount"}/>
-                        <p> {errors.amount?.message}</p>
-                        <label htmlFor={"title"}>title:</label>
-                        <input type={"title"}    {...register('title', {required: "Insert title!!!"})}
-                               className={'text-black rounded-xl p-2'}
-                               placeholder={"title"}/>
-                        <p> {errors.description?.message}</p>
-                        <label htmlFor={"description"}>description:</label>
-                        <input type={"description"}    {...register('description', {required: "Insert description!!!"})}
-                               className={'text-black rounded-xl p-2'}
-                               placeholder={"description"}/>
-                        <p> {errors.description?.message}</p>
-                        <input className='rounded-xl h-10 mt-5*/}
-                  bg-cyan-700 hover:bg-cyan-800' type={"submit"} value={'Add'}/>
+
+                        <div className="flex flex-col w-full space-y-2">
+                            <label htmlFor="categories" className="text-lg">
+                                Choose a category:
+                            </label>
+                            <select
+                                id="categories"
+                                className="text-black rounded-xl p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                {...register("categoryId", {required: "Select category!!!"})}
+                            >
+                                {selectedCategories.map((category) => (
+                                    <option value={category.id} key={category.id}>
+                                        {category.Category}
+                                    </option>
+                                ))}
+                            </select>
+                            <p >{errors.categoryId?.message}</p>
+                        </div>
+
+                        <div className="flex flex-col w-full space-y-2">
+                            <label htmlFor="amount" className="text-lg">
+                                Amount:
+                            </label>
+                            <input
+                                type="number"
+                                id="amount"
+                                min={0}
+                                step={0.01}
+                                {...register("amount", {required: "Insert amount!!!"})}
+                                className="text-black rounded-xl p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                placeholder="Amount"
+                            />
+                            <p >{errors.amount?.message}</p>
+                        </div>
+
+                        <div className="flex flex-col w-full space-y-2">
+                            <label htmlFor="title" className="text-lg">
+                                Title:
+                            </label>
+                            <input
+                                type="text"
+                                id="title"
+                                {...register("title", {required: "Insert title!!!"})}
+                                className="text-black rounded-xl p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                placeholder="Title"
+                            />
+                            <p >{errors.title?.message}</p>
+                        </div>
+
+                        <div className="flex flex-col w-full space-y-2">
+                            <label htmlFor="description" className="text-lg">
+                                Description:
+                            </label>
+                            <input
+                                type="text"
+                                id="description"
+                                {...register("description", {required: "Insert description!!!"})}
+                                className="text-black rounded-xl p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                placeholder="Description"
+                            />
+                            <p >{errors.description?.message}</p>
+                        </div>
+
+                        <input
+                            className="rounded-xl h-12 w-full bg-cyan-600 hover:bg-cyan-800 text-white cursor-pointer transition-all"
+                            type="submit"
+                            value="Add"
+                        />
                     </form>
                 </div>
             </div>
-
         </div>
+
     )
 }

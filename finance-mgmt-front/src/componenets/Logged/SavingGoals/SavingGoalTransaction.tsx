@@ -30,7 +30,6 @@ export const SavingGoalTransaction = (props: SavingGoalTransactionProp) => {
                 data.categoryId = 12
             }
             data.SavingAccountId=props.SavingGoalId
-            console.log(data)
             await savingGoalTransaction(data, props.activeMode)
             setNotification({
                 id: Date.now(),

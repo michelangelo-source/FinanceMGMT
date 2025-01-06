@@ -4,14 +4,12 @@ import {PieChart} from '@mui/x-charts/PieChart';
 import {useEffect, useState} from "react";
 import {getBalance} from "./MainPageAPi/MainPage.ts";
 import {getHistory, Transaction} from "../AccountHistory/hisotryApi/HistoryApi.ts";
-import {Button} from "@headlessui/react";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {SavingGoal} from "../SavingGoals/SavingGoals.tsx";
 import {getSavingGoalsList} from "../SavingGoals/api/savingGoals.ts";
 import {HistoryList} from "../../Layout/hisotryList/historyList.tsx";
 
 export const MainPage = () => {
-    const navigate = useNavigate();
     const [balance, setBalance] = useState<number>();
     const [history, setHistory] = useState<Transaction[]>([]);
 
@@ -30,11 +28,6 @@ export const MainPage = () => {
 
     }, [])
 
-
-    const newTransaction = () => {
-        navigate("/transaction")
-    }
-
     return (
         <div style={{backgroundImage: `url(${bgIMG})`}}
              className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>
@@ -48,13 +41,14 @@ export const MainPage = () => {
                         <div className='absolute bottom-0 right-0 m-4'>{balance}</div>
                     </div>
                     <div className='flex flex-row items-center justify-center'>
-                        <Button onClick={newTransaction}>New transaction</Button>
+                        <Link to={'/transaction'}>New transaction</Link>
                     </div>
-                    <div className='bg-cyan-600 flex-grow text-white bg-opacity-60  text-4xl rounded-lg  p-6 m-5'>
-                        Saving goals:
+                    <div
+                        className='bg-cyan-600 flex-grow text-white bg-opacity-60  text-4xl rounded-lg space-y-2  p-6 m-5'>
+                        <Link to={'/saving-goals'}>Saving goals:</Link>
 
 
-                        <div>
+                        <div className='text-lg md:text-4xl  '>
                             {savingGoals && savingGoals.map((el, index) => (
                                 <div key={index} className={'w-full flex flex-row'}>
                                     <p>{el.description}</p>
@@ -86,9 +80,9 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <div
-                    className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5'>
-                    History:
-                   <HistoryList history={history}></HistoryList>
+                    className='flex flex-col flex-grow bg-cyan-600  text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5 overflow-auto'>
+                    <Link to={'/history'}>History:</Link>
+                    <HistoryList history={history}></HistoryList>
                 </div>
             </div>
         </div>
