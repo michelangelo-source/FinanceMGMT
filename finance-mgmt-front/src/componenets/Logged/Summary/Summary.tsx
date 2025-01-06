@@ -57,7 +57,8 @@ export const Summary = () => {
             <Navbar ActivePage={"Summary"}/>
 
             <div
-                className="flex flex-col lg:flex-row items-center lg:items-start justify-between lg:justify-center space-y-6 lg:space-y-0 lg:space-x-8 h-4/5 w-11/12 lg:w-4/5 xl:w-2/3 bg-white bg-opacity-80 rounded-lg p-6 shadow-lg text-cyan-600">
+                className="flex items-center w-auto bg-white bg-opacity-80 rounded-lg p-6 shadow-lg text-cyan-600">
+                <div className={'flex flex-col lg:flex-row items-center lg:items-start justify-between lg:justify-center space-y-6 lg:space-y-0 lg:space-x-8  bg-cyan-600 bg-opacity-60 rounded-lg p-6  text-white'} >
                 <div className="flex flex-col w-full lg:w-1/3 space-y-4">
                     <p className="text-lg font-semibold">
                         Main balance: <span className={classNames(parseFloat(String(balance))>0?'text-green-600':'text-red-800')}>{parseFloat(String(balance)).toFixed(2)}</span>
@@ -68,7 +69,7 @@ export const Summary = () => {
                     </p>
                     <div className="mt-4">
                         <h3 className="text-lg font-bold mb-2">Most popular categories:</h3>
-                        <ul className="space-y-2">
+                        <ul className="space-y-2 text-cyan-600">
                             {sortedCategories.map(([key, value]) => (
                                 <li
                                     key={key}
@@ -110,6 +111,7 @@ export const Summary = () => {
                         onChange={(e) => setDateTo(e.currentTarget.value)}
                         className="w-full text-black h-auto bg-opacity-80 rounded-md p-2 border border-gray-300 focus:ring-2 focus:ring-cyan-500"
                     />
+                </div>
                 </div>
             </div>
         </div>
