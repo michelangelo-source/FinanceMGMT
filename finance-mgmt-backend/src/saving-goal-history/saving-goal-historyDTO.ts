@@ -6,13 +6,13 @@ export class SavingGoalHistoryDTO {
     categoryId: number,
     description: string,
     title: string,
-    AccountId: number,
+    SavingAccountId: number,
   ) {
     this.amount = amount;
     this.categoryId = categoryId;
     this.description = description;
     this.title = title;
-    this.AccountId = AccountId;
+    this.SavingAccountId = SavingAccountId;
   }
 
   @IsNotEmpty()
@@ -29,5 +29,5 @@ export class SavingGoalHistoryDTO {
   title: string;
   @IsNotEmpty()
   @IsNumber()
-  AccountId: number;
+  SavingAccountId: number;
 }

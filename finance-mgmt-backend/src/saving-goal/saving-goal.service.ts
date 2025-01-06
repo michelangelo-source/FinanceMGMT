@@ -42,9 +42,9 @@ export class SavingGoalService {
     );
     await this.bankAccountService.expenditure(userId, savingGoalHistoryDTO);
 
-    const savingAccount = await this.gatSavingAccount(
+    const savingAccount = await this.getSavingAccount(
       userId,
-      deposit.AccountId,
+      deposit.SavingAccountId,
     );
     if (!savingAccount) {
       throw new Error('Account not found');
@@ -69,9 +69,9 @@ export class SavingGoalService {
     );
     await this.bankAccountService.deposit(userId, savingGoalHistoryDTO);
 
-    const savingAccount = await this.gatSavingAccount(
+    const savingAccount = await this.getSavingAccount(
       userId,
-      expenditure.AccountId,
+      expenditure.SavingAccountId,
     );
     if (!savingAccount) {
       throw new Error('Account not found');
@@ -90,7 +90,7 @@ export class SavingGoalService {
     await this.savingGoalHistoryService.save(history);
   }
 
-  private gatSavingAccount(userId: number, AccountId: number) {
+  private getSavingAccount(userId: number, AccountId: number) {
     return this.savingGoalAccountRepository.findOneBy({
       id: AccountId,
       user: { id: userId },
@@ -106,13 +106,15 @@ export class SavingGoalService {
         `Saving goal with ID ${savingGoalId} not found.`,
       );
     }
-    const historyDTO = new HistoryDTO(
-      savingGoal.balance,
-      12,
-      'deleting SavingGoal',
-      'deleting SavingGoal',
-    );
-    await this.bankAccountService.deposit(userID, historyDTO);
+    if (savingGoal.balance > 0) {
+      const historyDTO = new HistoryDTO(
+        savingGoal.balance,
+        12,
+        'deleting SavingGoal',
+        'deleting SavingGoal',
+      );
+      await this.bankAccountService.deposit(userID, historyDTO);
+    }
     await this.savingGoalHistoryService.delete(savingGoalId);
     await this.savingGoalAccountRepository.delete(savingGoalId);
   }
