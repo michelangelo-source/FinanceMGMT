@@ -12,10 +12,8 @@ import {HistoryList} from "../../Layout/hisotryList/historyList.tsx";
 export const MainPage = () => {
     const [balance, setBalance] = useState<number>();
     const [history, setHistory] = useState<Transaction[]>([]);
-
     const [savingGoals, setSavingGoals] = useState<SavingGoal[]>();
     useEffect(() => {
-
         getBalance().then((response) => {
             setBalance(response.balance)
         });
@@ -25,9 +23,7 @@ export const MainPage = () => {
         getSavingGoalsList().then((response) => {
             setSavingGoals(response)
         })
-
     }, [])
-
     return (
         <div style={{backgroundImage: `url(${bgIMG})`}}
              className=' flex flex-col items-center justify-center h-screen bg-no-repeat bg-cover bg-center'>

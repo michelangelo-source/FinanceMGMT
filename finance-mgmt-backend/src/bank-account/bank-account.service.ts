@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { HistoryDTO } from '../history/historyDTO';
 import { HistoryService } from '../history/history.service';
 import { User } from '../entities/User.entity';
+import { InsufficientBalanceExceptions } from '../exceptions/insufficetn-balance-exceptions';
 
 @Injectable()
 export class BankAccountService {
@@ -49,7 +50,7 @@ export class BankAccountService {
       throw new Error('Account not found');
     }
     if (account.balance < expenditure.amount) {
-      throw new Error('Insufficient balance');
+      throw new InsufficientBalanceExceptions();
     }
     const history = this.historyService.createHistory(
       account,

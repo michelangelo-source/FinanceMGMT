@@ -15,21 +15,20 @@ export const Register = () => {
     const navigate = useNavigate();
     const {setNotification} = useNotification();
     const {register, handleSubmit, formState: {errors}} = useForm<RegisterData>();
-    const handleSubmitFun: SubmitHandler<RegisterData> = data => {
+    const handleSubmitFun: SubmitHandler<RegisterData> = async data => {
 
         try {
-            registerUser(data).then(() => {
-                    navigate("/login");
-                    setNotification({
-                        id: Date.now(),
-                        message: "registered successfully",
-                        type: "success",
-                        duration: 3000,
-                    })
-                }
-            )
+            await registerUser(data)
+            setNotification({
+                id: Date.now(),
+                message: "registered successfully",
+                type: "success",
+                duration: 3000,
+            })
+            navigate("/login");
         } catch (err) {
             const error = err as Error
+            console.log(error)
             setNotification({
                 id: Date.now(),
                 message: error.message,

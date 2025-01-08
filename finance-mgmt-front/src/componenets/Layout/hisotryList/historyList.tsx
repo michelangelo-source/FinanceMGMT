@@ -29,7 +29,7 @@ export const HistoryList = (historyProp: HistoryListProps) => {
     return (<ul>
             {historyProp.history.map((item, index) => (
                 <li
-                    key={index}
+                    key={item.id}
                     onMouseEnter={() => mouseIn(index)}
                     onMouseLeave={() => mouseOver()}
                     className="text-base md:text-lg flex flex-col  justify-between items-center p-2 border-b border-gray-300"

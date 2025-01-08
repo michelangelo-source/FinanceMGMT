@@ -13,7 +13,6 @@ export interface TransactionFormData {
     categoryId: number;
     description: string;
 }
-
 type transactionType = "incomes" | "expenditures"
 export const TransactionForm = () => {
     const [allCategories, setAllCategories] = useState<Category[]>([]);
@@ -25,15 +24,14 @@ export const TransactionForm = () => {
             setAllCategories(response);
         })
     }, [])
-
     const navigate = useNavigate();
     const {register, handleSubmit, formState: {errors}} = useForm<TransactionFormData>();
     const handleSubmitFun: SubmitHandler<TransactionFormData> = async data => {
         try {
             if (isIncome) {
-                income(data)
+                await income(data)
             } else {
-                expenditure(data)
+                await  expenditure(data)
             }
             navigate('/mainPage')
         } catch (err) {

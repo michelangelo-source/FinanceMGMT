@@ -3,30 +3,38 @@ import {API_URL} from "../../../../config.ts";
 import {TransactionFormData} from "../TransactionForm.tsx";
 
 export const income = (data: TransactionFormData) => {
-console.log(data.amount,
-    {
-    amount: data.amount,
-    categoryId: data.categoryId,
-    description: data.description,
-    title: data.title,
-})
-
+    data.amount=parseFloat(String(data.amount))
+    data.categoryId=parseFloat(String(data.categoryId))
     return ky.put(API_URL + "bank-account/deposit", {
-        credentials: "include", json: {
-            amount: Number(data.amount),
-            categoryId: Number(data.categoryId),
-            description: data.description,
-            title: data.title,
+        credentials: "include", json: data,hooks: {
+            beforeError: [
+                async(error) => {
+                    const {response} = error
+                    if (response) {
+                        const errorBody =(await response.json()) as Error;
+                        error.message = errorBody.message;
+                    }
+                    return error;
+                }
+            ],
         }
     })
 }
 export const expenditure = (data: TransactionFormData) => {
+    data.amount=parseFloat(String(data.amount))
+    data.categoryId=parseFloat(String(data.categoryId))
     return ky.put(API_URL + "bank-account/expenditure", {
-        credentials: "include", json: {
-            amount: Number(data.amount),
-            categoryId: Number(data.categoryId),
-            description: data.description,
-            title: data.title,
+        credentials: "include", json: data,hooks: {
+            beforeError: [
+                async(error) => {
+                    const {response} = error
+                    if (response) {
+                        const errorBody =(await response.json()) as Error;
+                        error.message = errorBody.message;
+                    }
+                    return error;
+                }
+            ],
         }
     })
 }

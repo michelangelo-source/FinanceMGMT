@@ -23,12 +23,11 @@ export const Summary = () => {
 
     }, [dateFrom, dateTo]);
     useEffect(() => {
-        if (history.length > 0) {
-            balanceTimedAndCategories();
-        }
+        balanceTimedAndCategories();
     }, [history]);
     const balanceTimedAndCategories = () => {
         let tmpBalance = 0;
+
         const categories = new Map<string, number>();
         history.forEach((item) => {
             tmpBalance += parseFloat(String(item.amount))
