@@ -107,7 +107,7 @@ export const Navbar = (props: NavbarProps) => {
                             {item.name}
                         </Link>
                     ))}
-                    <button onClick={logout} className=' w-full hover:bg-cyan-700 text-white
+                    <button  onClick={logout} className=' w-full hover:bg-cyan-700 text-white
                                     block rounded-md px-3 py-2 text-base font-medium text-left'> Logout
                     </button>
                 </div>

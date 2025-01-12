@@ -62,7 +62,7 @@ export const StartPage = () => {
                     Have account?
                 </div>
 
-                <Link to={'/login'} className=' flex flex-col justify-center items-center
+                <Link  to={'/login'} className=' flex flex-col justify-center items-center
                     m-3 w-52 h-12 lg:w-72 lg:h-24 rounded-xl
                     bg-cyan-700 hover:bg-cyan-800'
                 >

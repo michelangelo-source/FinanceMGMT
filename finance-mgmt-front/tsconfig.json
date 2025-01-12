@@ -1,6 +1,18 @@
 {
   "files": [],
-  "references": [
+
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "types": ["cypress"]
+  },
+  "include": ["**/*.ts"],
+
+
+"references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
