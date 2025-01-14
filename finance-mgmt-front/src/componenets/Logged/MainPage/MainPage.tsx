@@ -46,8 +46,8 @@ export const MainPage = () => {
 
                         <div className='text-lg md:text-4xl  '>
                             {savingGoals && savingGoals.map((el, index) => (
-                                <div key={index} className={'w-full flex flex-row'}>
-                                    <p>{el.description}</p>
+                                <div key={index} className='flex flex-row items-center justify-between p-3  text-white  rounded-lg  border-b '>
+                                    <p className="text-lg font-medium">{el.description}</p>
                                     <PieChart
                                         series={[{
                                             data: [{
@@ -67,7 +67,7 @@ export const MainPage = () => {
                                         width={50}
                                         height={50}
                                     />
-                                    <p>{(el.balance / el.goal * 100).toFixed(2)}%</p>
+                                    <p className="text-lg font-semibold">{(el.balance / el.goal * 100).toFixed(2)}%</p>
                                 </div>
                             ))}
                         </div>
@@ -76,7 +76,7 @@ export const MainPage = () => {
                     </div>
                 </div>
                 <div
-                    className='flex flex-col bg-cyan-600 h-96 md:h-auto text-white bg-opacity-60 rounded-lg  text-4xl p-6 m-5 overflow-auto'>
+                    className='flex flex-col bg-cyan-600 md:h-auto text-white bg-opacity-60 rounded-lg lg:w-2/3  text-4xl p-6 m-5 overflow-auto'>
                     <Link to={'/history'}>History:</Link>
                     <HistoryList history={history}></HistoryList>
                 </div>
