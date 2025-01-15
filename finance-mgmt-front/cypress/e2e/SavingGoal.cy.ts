@@ -4,8 +4,8 @@ describe('template spec', () => {
 
   it('passes', () => {
     const { username, password } = loginExampleData
-    const savingGoal=Math.random().toString();
     cy.login(username, password)
+    const savingGoal=Math.random().toString();
     cy.contains('a','Saving goals').click();
     cy.url().should('include', '/saving-goals');
     cy.contains('button','Add').click();
@@ -18,6 +18,5 @@ describe('template spec', () => {
     cy.get('input[name="title"]').type('krok');
     cy.get('input[name="description"]').type('jeszcze trochę');
     cy.get('input[type="submit"]').click();
-    cy.contains('button','Logout').click();
   })
 })

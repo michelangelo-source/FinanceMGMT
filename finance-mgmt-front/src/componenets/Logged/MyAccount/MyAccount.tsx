@@ -157,6 +157,7 @@ export const MyAccount = () => {
                         <form onSubmit={handleSubmitPassword(handlePasswordChange)} className="space-y-4">
                             <p className="font-semibold">Password:</p>
                             <p
+                                data-cy={"changePasswordBtn"}
                                 className="cursor-pointer bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg text-center"
                                 onClick={() => setEditPassword(true)}
                             >
@@ -190,6 +191,7 @@ export const MyAccount = () => {
                                     <p>{passwordErrors.newPassword?.message}</p>
                                     <div className="flex space-x-4">
                                         <button
+                                            data-cy={'submitPasswordChange'}
                                             className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg"
                                             type="submit"
                                         >

@@ -70,6 +70,7 @@ export const Navbar = (props: NavbarProps) => {
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
                                     <Link
+                                        data-cy={'navbar '+item.name}
                                         key={item.name}
                                         to={item.href}
                                         aria-current={item.current ? 'page' : undefined}
@@ -81,7 +82,9 @@ export const Navbar = (props: NavbarProps) => {
                                         {item.name}
                                     </Link>
                                 ))}
-                                <button onClick={logout} className='hover:bg-cyan-700
+                                <button
+                                    data-cy={'logout'}
+                                    onClick={logout} className='hover:bg-cyan-700
                                     block rounded-md px-3 py-2 text-base  text-white'> Logout
                                 </button>
                             </div>
@@ -95,8 +98,8 @@ export const Navbar = (props: NavbarProps) => {
                 <div className="space-y-1 px-2 pb-3 pt-2">
                     {navigation.map((item) => (
                         <Link
+                            data-cy={'navbar '+item.name}
                             key={item.name}
-
                             to={item.href}
                             aria-current={item.current ? 'page' : undefined}
                             className={classNames(

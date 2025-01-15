@@ -13,7 +13,7 @@
 
 Cypress.Commands.add("login", (username:string, password:string) => {
     cy.visit('/')
-    cy.contains('a','Login').click();
+    cy.get('[data-cy="loginBtn"]').click();
     cy.url().should('include', '/login');
     cy.get('input[name="login"]').type(username);
     cy.get('input[name="password"]').type(password);

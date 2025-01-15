@@ -4,7 +4,7 @@ describe('template spec', () => {
   it('passes', () => {
     const { username, password } =loginExampleData
     cy.login(username, password)
-    cy.get('[ data-cy="newTransaction"]').click();
+    cy.get('[data-cy="newTransaction"]').click();
     cy.url().should('include', '/transaction');
     cy.get('input[id="incomes"]').click();
     cy.get('select').select('Salary')
@@ -22,6 +22,6 @@ describe('template spec', () => {
     cy.get('input[id="description"]').type(':(');
     cy.get('input[type="submit"]').click();
     cy.url().should('include', '/mainPage');
-    cy.contains('button','Logout').click();
+
   })
 })
